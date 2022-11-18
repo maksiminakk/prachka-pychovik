@@ -1,0 +1,114 @@
+.questions {
+    padding: 100px 0px 0px 0px;
+    @media(max-width:1024px) {
+        padding: 80px 0px 0px 0px;
+    }
+    &__container {
+    }
+
+    &__body {
+    }
+
+    &__top {
+    }
+
+    &__title {
+        margin: 0px 0px 40px 0px;
+    }
+
+    &__content {
+        
+    }
+
+    &__row {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    &__item {
+        flex: 0 1 calc(50% - 20px);
+        @media(max-width:1024px) {
+            flex: 1 1 100%;
+        }
+    }
+
+    &__bottom {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__button {
+        max-width: 290px;
+    }
+}
+
+.questions-item {
+    padding: 15px 0px;
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        margin-bottom: 15px;
+        transition: all 0.5s ease 0s;
+        gap: 10px;
+        &:after {
+            content: "";
+            display: block;
+            background-image: url(/assets/images/icons/arrow.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 18px;
+            height: 10px;
+            flex: 0 0 18px;
+            transition: all 0.4s ease 0s;
+        }
+        &._active {
+            margin-bottom: 20px;
+            &:after {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    &__left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+        padding-left: 30px;
+    }
+
+    &__icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    &__title {
+        font-size: 20px;
+        font-weight: 500;
+        @media(max-width:1024px) {
+            font-size: 18px;
+        }
+    }
+
+    &__content {
+        padding-left: 30px;
+    }
+
+    &__text {
+        color: rgba(36, 44, 58, 0.7);
+        font-size: 18px;
+        line-height: 125%;
+        @media(max-width:1024px) {
+            font-size: 16px;
+        }
+    }
+
+    
+}

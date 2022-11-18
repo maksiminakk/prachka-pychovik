@@ -1,0 +1,1514 @@
+<!-- <?php 
+/*
+    Template name: Химчистка пуховика
+*/
+?>
+<?get_header()?> -->
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+	<meta name="theme-color" content="#0088DC">
+	<meta name="format-detection" content="telephone=no">
+	<title><?=wp_get_document_title()?></title>
+	<link rel="icon" href="favicon.ico">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<meta name="google-site-verification" content="t6dBK2-1mtBhuPyJsAJ9csBRBJJtu6rjst64pV6Prmo" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+	<!-- <link rel="stylesheet" href="<?=get_template_directory_uri()?>/assets/css/main.css?v=1654789338241"> -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+	<link rel="stylesheet" href="/wp-content/themes/prachka/assets/css/main.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<meta name="yandex-verification" content="3b739c339b7db631" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+	<?wp_head()?>
+</head>
+
+<body>
+	<!-- Roistat Counter Start -->
+	<script>
+		(function (w, d, s, h, id) {
+			w.roistatProjectId = id;
+			w.roistatHost = h;
+			var p = d.location.protocol == "https:" ? "https://" : "http://";
+			var u = /^.*roistat_visit=[^;]+(.*)?$/.test(d.cookie) ? "/dist/module.js" : "/api/site/1.0/" + id +
+				"/init?referrer=" + encodeURIComponent(d.location.href);
+			var js = d.createElement(s);
+			js.charset = "UTF-8";
+			js.async = 1;
+			js.src = p + h + u;
+			var js2 = d.getElementsByTagName(s)[0];
+			js2.parentNode.insertBefore(js, js2);
+		})(window, document, 'script', 'cloud.roistat.com', '0fef84c4529eecc33c4784760b13794c');
+	</script>
+	<!-- Roistat Counter End -->
+	<?if(empty($_COOKIE['cityAlreadySet'])):?>
+	<style>
+		.city-modal,
+		.city-modal-close {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			padding: 1rem;
+			z-index: 9999;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.city-modal-close {
+			background: rgba(0, 0, 0, 0.5);
+			cursor: pointer;
+		}
+
+		.city-modal-stage {
+			background: white;
+			height: min-content;
+			border-radius: 1rem;
+			padding: 1rem 1.5rem;
+			z-index: 10000;
+			max-width: 50rem;
+		}
+
+		.city-modal-stage_2 {
+			display: none;
+		}
+
+		.city-modal-stage-change-button,
+		.city-modal-stage-cities-list-item {
+			cursor: pointer;
+			padding: 0.5rem 1.5rem;
+			border-radius: 1rem;
+			border: none;
+			background-color: rgba(0, 136, 220, .1);
+			transition-duration: 100ms;
+		}
+
+		.city-modal-stage-change-button:hover,
+		.city-modal-stage-cities-list-item:hover {
+			background-color: #0088dc;
+			color: white;
+		}
+
+		.city-modal-stage-change-buttons-container {
+			display: flex;
+			flex-direction: row;
+			gap: 1rem;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 0.67rem;
+		}
+
+		.city-modal-stage-cities-list {
+			display: flex;
+			flex-direction: row;
+			gap: 1rem;
+			flex-wrap: wrap;
+			margin-bottom: 0.67rem;
+		}
+
+		.city-modal-stage-name {
+			font-size: 1.2rem;
+			font-weight: bold;
+			margin-bottom: 15px;
+		}
+
+		body {
+			overflow: hidden;
+			height: 100vh;
+		}
+	</style>
+	<div class="city-modal">
+		<div class="city-modal-close" onclick="city_modal_close();"></div>
+		<div class="city-modal-stage city-modal-stage_1">
+			<div>
+				<div>
+					<p class="city-modal-stage-name">Вы из Санкт-Петербурга?</p>
+				</div>
+				<div class="city-modal-stage-change-buttons-container">
+					<input class="city-modal-stage-change-button" onclick="city_modal_set_stage();" type="button"
+						value="Нет">
+					<input class="city-modal-stage-change-button" onclick="city_modal_close();" type="button"
+						value="Да">
+				</div>
+			</div>
+		</div>
+		<div class="city-modal-stage city-modal-stage_2">
+			<div>
+				<div>
+					<p class="city-modal-stage-name">Выберите свой город из списка</p>
+				</div>
+				<div class="city-modal-stage-cities-list">
+					<?$CITIES = [
+								['link' => "https://msk.prachka.com", 'name' => "Москва"],
+								['link' => "https://kzn.prachka.com", 'name' => "Казань"],
+								['link' => "https://tomsk.prachka.com", 'name' => "Томск"],
+								['link' => "https://tumen.prachka.com", 'name' => "Тюмень"],
+								['link' => "https://nsk.prachka.com", 'name' => "Новосибирск"],
+								['link' => "https://ekb.prachka.com", 'name' => "Екатеринбург"],
+								['link' => "https://eng.prachka.com", 'name' => "Энгельс"],
+								['link' => "https://krd.prachka.com", 'name' => "Краснодар"],
+								['link' => "https://bryansk.prachka.com", 'name' => "Брянск"],
+								['link' => "https://omsk.prachka.com", 'name' => "Омск"],
+								['link' => "https://volzhsky.prachka.com", 'name' => "Волжский"],
+								['link' => "https://ulan-ude.prachka.com", 'name' => "Улан-Удэ"],
+								['link' => "https://ufa.prachka.com", 'name' => "Уфа"],
+							];?>
+					<?foreach($CITIES as $CITY):?>
+					<a class="city-modal-stage-cities-list-item" href="<?=$CITY['link']?>"><?=$CITY['name']?></a>
+					<?endforeach;?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function city_modal_close() {
+			$('.city-modal').remove();
+
+			$('body').css('overflow', 'auto');
+			$('body').css('height', 'unset');
+
+			let date = new Date(Date.now() + 86400e3 * 30);
+			date = date.toUTCString();
+			document.cookie = "cityAlreadySet=true; expires=" + date;
+		}
+
+		function city_modal_set_stage() {
+			$('.city-modal-stage_1').hide();
+			$('.city-modal-stage_2').show();
+		}
+	</script>
+	<?endif;?>
+
+	<script>
+		window.data = {
+			home: {
+				"info": [{
+					"icon": "icon01",
+					"title": "Заберем вещи",
+					"subtitle": "В удобное для Вас время курьер приедет и заберет вещи в стирку или химчистку"
+				}, {
+					"icon": "icon02",
+					"title": "Постираем или почистим",
+					"subtitle": "В зависимости от типа вещей и характера загрязнений на оборудовании Electrolux"
+				}, {
+					"icon": "icon03",
+					"title": "Доставим чистое",
+					"subtitle": "Стирка будет готова уже через день, химчистка вещей и обуви до 5 дней"
+				}],
+				"carts": [{
+					"title": "Стирка",
+					"desc": "1 загрузка до 5 кг",
+					"price": "170"
+				}, {
+					"title": "Стирка + Сушка",
+					"desc": "Загрузка до 5 кг",
+					"price": "320"
+				}, {
+					"title": "Постирать и сложить",
+					"desc": "Загрузка до 5 кг. Все включено",
+					"price": "430"
+				}, {
+					"title": "Постельное белье с глажкой",
+					"desc": "За 1 вещь. Мин. заказ 500 рублей",
+					"price": "100"
+				}, {
+					"title": "Крупная вещь",
+					"desc": "Одеяло/плед/чехол. Всё включено",
+					"price": "750"
+				}, {
+					"title": "Чистка кроссовок",
+					"desc": "За 1 пару: текстиль/замша/кожа",
+					"price": "1900"
+				}, {
+					"title": "Пуховик",
+					"desc": "",
+					"price": "1350"
+				}, {
+					"title": "Пиджак",
+					"desc": "",
+					"price": "700"
+				}, {
+					"title": "Плащ",
+					"desc": "",
+					"price": "1100"
+				}, {
+					"title": "Пальто",
+					"desc": "",
+					"price": "1450"
+				}, {
+					"title": "Платье",
+					"desc": "",
+					"price": "950"
+				}, {
+					"title": "Рубашка",
+					"desc": "",
+					"price": "300"
+				}],
+				"lists": {
+					"0": [{
+						"icon": "icon01",
+						"title": "Домашний текстиль",
+						"items": [{
+							"title": "Постельное белье за шт",
+							"price": "100"
+						}, {
+							"title": "Одеяло, плед, чехол",
+							"price": "750"
+						}, {
+							"title": "Скатерть",
+							"price": "800"
+						}, {
+							"title": "Полотенце, салфетка",
+							"price": "300"
+						}, {
+							"title": "Шторы однослойные",
+							"price": "200"
+						}, {
+							"title": "Подушка",
+							"price": "750"
+						}, {
+							"title": "Постирать и погладить за кг (от 3кг)",
+							"price": "490"
+						}]
+					}, {
+						"icon": "icon02",
+						"title": "Повседневная одежда",
+						"items": [{
+							"title": "Рубашка, блузка, футболка, поло",
+							"price": "300"
+						}, {
+							"title": "Постирать и погладить за кг (от 3кг)",
+							"price": "490"
+						}, {
+							"title": "Шорты",
+							"price": "400"
+						}, {
+							"title": "Брюки, джинсы, шорты, юбки",
+							"price": "600"
+						}, {
+							"title": "Спортивный костюм",
+							"price": "800"
+						}, {
+							"title": "Свитер, джемпер, худи, кофта",
+							"price": "600"
+						}]
+					}, {
+						"icon": "icon03",
+						"title": "Прочее",
+						"items": [{
+							"title": "Шарф, шапка, перчатки, платки, галстук",
+							"price": "500"
+						}, {
+							"title": "Пижама",
+							"price": "500"
+						}, {
+							"title": "Купальник",
+							"price": "500"
+						}]
+					}],
+					"1": [{
+						"icon": "icon04",
+						"title": "Верхняя одежда",
+						"items": [{
+							"title": "Утепленная куртка, пуховик",
+							"price": "1350"
+						}, {
+							"title": "Пальто",
+							"price": "1450"
+						}, {
+							"title": "Плащ",
+							"price": "1100"
+						}, {
+							"title": "Куртка с мехом, отделкой мехом",
+							"price": "2000"
+						}, {
+							"title": "Ветровка, легкая куртка, жилет пуховой",
+							"price": "800"
+						}, {
+							"title": "Комбинезон",
+							"price": "1650"
+						}, {
+							"title": "Горнолыжный костюм",
+							"price": "2750"
+						}]
+					}, {
+						"icon": "icon05",
+						"title": "Деловая одежда",
+						"items": [{
+							"title": "Рубашка, блузка, жилет",
+							"price": "300"
+						}, {
+							"title": "Брюки",
+							"price": "600"
+						}, {
+							"title": "Пиджак",
+							"price": "700"
+						}]
+					}, {
+						"icon": "icon06",
+						"title": "Платья",
+						"items": [{
+							"title": "Платье простое",
+							"price": "950"
+						}, {
+							"title": "Палтье вечернее",
+							"price": "1750"
+						}, {
+							"title": "Платье свадебное",
+							"price": "3500"
+						}]
+					}]
+				},
+				"faqs": [{
+					"icon": "bags",
+					"title": "Как вы упаковываете вещи?",
+					"subtitle": "При приёме курьер сложит все ваши вещи в один большой мешок. Вещи из химчистки вернем на вешалках в полиэтиленовых чехлах, а вещи из стирки - аккуратно сложенными в пакете."
+				}, {
+					"icon": "lupa",
+					"title": "Не могу найти вещь в прайс листе. Что делать?",
+					"subtitle": "Мы не принимаем ковры и  натуральную кожу. В остальных случаях позвоните или напишите нам — ответим на любые вопросы."
+				}, {
+					"icon": "hourglass",
+					"title": "Когда вы списываете деньги за заказ?",
+					"subtitle": "Оплата производится при получении вещи."
+				}, {
+					"icon": "money",
+					"title": "Могу ли я оплатить заказ наличными?",
+					"subtitle": "Если вы хотите оплатить наличными разовый заказ, то позвоните или напишите нам — поможем."
+				}],
+				"socials": [{
+					"icon": "whatsapp",
+					"title": "Whatsapp",
+					"color": "linear-gradient(84.86deg, #20B038 23.6%, #60D66A 81.54%);"
+				}, {
+					"icon": "tg",
+					"title": "Telegram",
+					"color": "linear-gradient(267.42deg, #2AABEE 17.02%, #229ED9 78.13%);"
+				}, {
+					"icon": "vk",
+					"title": "ВКонтакте",
+					"color": "linear-gradient(86.02deg, #016DB4 1.59%, #20BDFF 85.66%, #E4DBD9 169.73%);"
+				}, {
+					"icon": "phone",
+					"title": "Позвонить",
+					"color": "linear-gradient(90deg, #016DB4 0%, #20BDFF 50%, #E4DBD9 100%);"
+				}]
+			},
+		};
+	</script>
+	<div class="site">
+		<nav class="nav <?php 
+					if(this_page_id_id(20) || this_page_id_id(98) || this_page_id_id(96) || this_page_id_id(24) || this_page_id_id(90) || this_page_id_id(88) || this_page_id_id(26) || this_page_id_id(22)){
+						echo 'nav--blue';
+					}else if(this_page_id_id(18)){
+						echo 'nav--black';
+					}else{
+						echo 'nav--white';
+					}
+				?>">
+			<div class="container">
+				<ul class="nav__lists">
+					<li class="nav__list"><a class="nav__link <?=this_page_id_id(16)?'is-active':''?>" href="/"
+							title="Стирка">
+							<svg class="nav__icon">
+								<use xlink:href="<?=get_template_directory_uri()?>/assets/images/sprites.svg#wash">
+								</use>
+							</svg><span>Стирка</span></a></li>
+					<li class="nav__list"><a class="nav__link <?=this_page_id_id(18)?'is-active':''?>"
+							href="/khimchistka/" title="Химчистка">
+							<svg class="nav__icon">
+								<use xlink:href="<?=get_template_directory_uri()?>/assets/images/sprites.svg#dry"></use>
+							</svg><span>Химчистка</span></a></li>
+					<li class="nav__list"><a class="nav__link <?=this_page_id_id(20)?'is-active':''?>" href="/contacts/"
+							title="Адреса">
+							<svg class="nav__icon">
+								<use xlink:href="<?=get_template_directory_uri()?>/assets/images/sprites.svg#location2">
+								</use>
+							</svg><span>Адреса</span></a></li>
+					<li class="nav__list"><a class="nav__link <?=this_page_id_id(22)?'is-active':''?>" href="/delivery"
+							title="Доставка">
+							<svg class="nav__icon">
+								<use xlink:href="<?=get_template_directory_uri()?>/assets/images/sprites.svg#deliver">
+								</use>
+							</svg><span>Доставка</span></a></li>
+				</ul>
+			</div>
+		</nav>
+		<header class="header">
+			<div class="container">
+				<div class="header__wrapper">
+					<a class="header__logo" href="<?=get_permalink(16)?>">
+						<svg width="172" height="27" viewBox="0 0 172 27" fill="none"
+							xmlns="http://www.w3.org/2000/svg">
+							<g clip-path="url(#clip0_308_2882)">
+								<path
+									d="M28.6153 13.5547C28.6168 13.9202 28.5969 14.2856 28.5557 14.6487C28.4444 16.1781 27.9665 17.6574 27.1632 18.959C26.3599 20.2606 25.2554 21.3457 23.9445 22.1208C23.6736 22.2739 23.4027 22.4161 23.1317 22.5529C19.7018 24.1556 15.8059 23.4718 12.6252 20.7314C12.997 20.7984 13.375 20.8241 13.7523 20.808C14.3158 20.8896 14.8844 20.9298 15.4537 20.9283C17.2085 20.9424 18.948 20.5978 20.5674 19.9153C22.1868 19.2329 23.6526 18.2266 24.8765 16.9571C25.8571 15.8963 26.6188 14.6493 27.1174 13.2886C27.616 11.9278 27.8415 10.4806 27.7808 9.03101C28.3312 10.4746 28.614 12.0079 28.6153 13.5547Z"
+									fill="#0D66B0" />
+								<path
+									d="M27.0439 9.34276C27.0819 11.9688 26.1109 14.5076 24.3346 16.4264C22.3847 18.4602 19.7948 19.7462 17.0088 20.064C17.2418 19.9491 17.4694 19.8288 17.7024 19.692C18.4045 19.2751 19.0267 18.7341 19.5392 18.0948C20.8734 16.6277 21.8594 14.8734 22.4227 12.9648C22.986 11.0561 23.1117 9.04313 22.7903 7.07817C22.4414 4.78157 21.3987 2.64967 19.8047 0.973633C21.3909 1.60054 22.8575 2.49997 24.1396 3.63206C25.185 4.56484 26.0743 5.66205 26.773 6.88125C26.9392 7.69141 27.0299 8.51551 27.0439 9.34276Z"
+									fill="#0D66B0" />
+								<path
+									d="M20.9588 14.7689C21.0077 14.2486 21.0077 13.7248 20.9588 13.2045C20.9135 12.5932 20.7555 11.9959 20.4928 11.4432C18.889 6.60766 15.4753 3.65386 11.1134 3.32566C10.8804 3.32566 10.6311 3.32566 10.3765 3.32566C7.45554 3.35959 4.65138 4.48841 2.50879 6.4928C3.17514 5.49736 3.94935 4.58002 4.81708 3.75779C7.43832 1.30165 10.8912 -0.0488002 14.4675 -0.0165244C15.5827 -0.00993817 16.6941 0.114731 17.7836 0.355437H17.8215C19.951 1.53149 21.582 4.15163 22.0859 7.2039C22.5219 9.78235 22.1269 12.434 20.9588 14.7689Z"
+									fill="#0D66B0" />
+								<path
+									d="M8.59383 26.9945C6.6959 26.088 4.97587 24.8427 3.51667 23.3187C2.66597 22.066 1.95072 18.7621 3.13196 15.6114C3.97987 13.424 5.5466 11.5971 7.56973 10.4368C7.15117 10.8654 6.78714 11.345 6.48602 11.8644C4.99593 14.3861 4.62747 17.7174 5.49985 20.9994C5.87415 22.3635 6.43398 23.6687 7.16334 24.8776C7.49387 25.4246 7.86232 25.9716 8.30664 26.6171C8.3825 26.7046 8.48004 26.8468 8.59383 26.9945Z"
+									fill="#0D66B0" />
+								<path
+									d="M18.6341 9.07483C17.2522 7.93628 15.4939 7.36937 13.7141 7.48852C13.3297 7.51411 12.9477 7.56712 12.5708 7.64715H12.5274C12.127 7.72347 11.7323 7.82765 11.3462 7.95895C5.61338 9.66559 3.32135 12.882 2.41103 15.338C1.71452 17.2636 1.56071 19.3465 1.96672 21.355C0.929163 19.6936 0.280139 17.8154 0.0688954 15.8629C-0.142348 13.9105 0.0897407 11.9352 0.74755 10.0868L0.785479 10.0047C1.75733 8.1251 3.24534 6.56816 5.07128 5.5204C6.89722 4.47263 8.98365 3.97847 11.0807 4.09712C14.2342 4.32139 16.911 6.06085 18.6341 9.07483Z"
+									fill="#0D66B0" />
+								<path fill-rule="evenodd" clip-rule="evenodd"
+									d="M118.102 12.8818C118.134 12.1787 117.906 11.4888 117.463 10.9454C117.231 10.6955 116.947 10.5001 116.632 10.373C116.317 10.246 115.979 10.1904 115.64 10.2102C115.301 10.23 114.971 10.3248 114.673 10.4878C114.374 10.6507 114.115 10.8779 113.914 11.1533C113.464 11.9826 113.228 12.9128 113.228 13.8582C113.228 14.8036 113.464 15.7338 113.914 16.5631C114.12 16.866 114.399 17.1105 114.726 17.2733C115.052 17.4361 115.414 17.5118 115.778 17.493C116.099 17.5083 116.419 17.4474 116.712 17.3154C117.006 17.1834 117.265 16.9838 117.468 16.7327C117.902 16.1842 118.129 15.4979 118.108 14.7963V12.8818H118.102ZM67.4932 12.8818C67.5247 12.1787 67.2969 11.4888 66.8538 10.9454C66.6219 10.6955 66.3384 10.5001 66.0234 10.373C65.7084 10.246 65.3696 10.1904 65.031 10.2102C64.6923 10.23 64.3622 10.3248 64.0638 10.4878C63.7655 10.6507 63.5063 10.8779 63.3046 11.1533C62.855 11.9826 62.6194 12.9128 62.6194 13.8582C62.6194 14.8036 62.855 15.7338 63.3046 16.5631C63.5107 16.866 63.7902 17.1105 64.1166 17.2733C64.4429 17.4361 64.8051 17.5118 65.1686 17.493C65.4896 17.5083 65.8097 17.4474 66.1033 17.3154C66.3969 17.1834 66.6557 16.9838 66.8592 16.7327C67.2931 16.1842 67.5197 15.4979 67.4986 14.7963V12.8818H67.4932ZM40.4331 14.8127C40.405 15.5137 40.6325 16.2007 41.0725 16.7436C41.277 16.9935 41.5361 17.1921 41.8294 17.324C42.1227 17.4559 42.4422 17.5175 42.763 17.504C43.1272 17.52 43.4892 17.4414 43.8147 17.2757C44.1401 17.11 44.4179 16.8628 44.6216 16.5577C45.1234 15.7384 45.3671 14.7847 45.3206 13.8227C45.3671 12.8795 45.1229 11.945 44.6216 11.1478C44.4199 10.8725 44.1607 10.6453 43.8624 10.4823C43.5641 10.3193 43.2339 10.2246 42.8953 10.2047C42.5566 10.1849 42.2178 10.2405 41.9028 10.3675C41.5878 10.4946 41.3043 10.69 41.0725 10.94C40.6296 11.4899 40.4021 12.1847 40.4331 12.8927V14.8127ZM118.102 19.0028C117.736 19.4279 117.277 19.7621 116.762 19.9794C116.247 20.1966 115.69 20.2911 115.133 20.2554C114.441 20.2699 113.756 20.1171 113.135 19.8097C112.514 19.5024 111.974 19.0494 111.562 18.4886C110.619 17.1248 110.15 15.484 110.229 13.8227C110.155 12.1646 110.646 10.5311 111.622 9.19502C112.065 8.62621 112.634 8.17011 113.283 7.8633C113.932 7.55648 114.644 7.40747 115.36 7.4282C115.872 7.40523 116.383 7.49567 116.857 7.69316C117.33 7.89066 117.755 8.19044 118.102 8.57143C118.178 7.77281 118.817 7.47743 119.608 7.47743C119.993 7.45672 120.374 7.56437 120.692 7.78375C120.818 7.90888 120.916 8.06044 120.978 8.22773C121.039 8.39503 121.064 8.57398 121.05 8.75195V18.8988C121.062 19.0752 121.038 19.2523 120.979 19.4189C120.92 19.5855 120.828 19.738 120.708 19.867C120.368 20.1037 119.955 20.2121 119.543 20.1733C118.763 20.2062 118.124 19.8834 118.102 19.0082V19.0028ZM102.09 11.7058C102.647 11.239 103.176 10.7384 103.673 10.207C104.282 9.54971 104.847 8.8516 105.363 8.11742C105.496 7.92088 105.661 7.7488 105.851 7.60871C106.039 7.5008 106.253 7.44778 106.469 7.45555C106.866 7.45043 107.252 7.59248 107.552 7.85486C107.698 7.95788 107.817 8.09349 107.902 8.25104C107.986 8.40858 108.034 8.58379 108.04 8.76289C108.029 9.0844 107.94 9.39824 107.78 9.67638C107.46 10.1742 107.097 10.6428 106.696 11.0767C106.137 11.7079 105.534 12.2983 104.892 12.8435C105.485 13.4571 106.028 14.1174 106.517 14.8182C107.021 15.5184 107.552 16.2404 108.002 16.9788C108.239 17.3626 108.453 17.7609 108.641 18.1713C108.722 18.3712 108.766 18.5844 108.771 18.8004C108.773 18.9901 108.732 19.1776 108.65 19.3484C108.568 19.5192 108.448 19.6686 108.3 19.785C107.999 20.0473 107.614 20.1894 107.216 20.1843C106.973 20.1866 106.733 20.1284 106.517 20.0147C106.263 19.8483 106.061 19.6108 105.938 19.331C105.45 18.3873 104.908 17.474 104.312 16.5959C103.81 15.8909 103.25 15.2303 102.638 14.6213C102.467 14.7633 102.286 14.8914 102.096 15.0042V18.8332C102.096 19.7795 101.44 20.1241 100.595 20.1241C99.7496 20.1241 99.1265 19.7631 99.1265 18.8332V3.32569C99.1087 3.14871 99.134 2.97003 99.2001 2.80513C99.2662 2.64024 99.3711 2.49409 99.5058 2.37938C99.8442 2.18771 100.226 2.08706 100.614 2.08706C101.002 2.08706 101.383 2.18771 101.722 2.37938C101.851 2.49931 101.952 2.64722 102.017 2.81204C102.082 2.97686 102.109 3.15432 102.096 3.33116V11.7058H102.09ZM88.4845 8.86135C88.8774 8.39822 89.3692 8.03109 89.9229 7.78758C90.4767 7.54408 91.0779 7.43056 91.6814 7.45555C92.2421 7.43611 92.8005 7.53781 93.3191 7.75384C93.8378 7.96987 94.3047 8.29524 94.6887 8.70818C95.4672 9.65035 95.8691 10.852 95.8158 12.0777V18.9152C95.8158 19.8451 95.2143 20.2226 94.3473 20.2226C93.9455 20.2545 93.5456 20.14 93.2203 19.8998C93.0902 19.7735 92.9893 19.6198 92.9247 19.4496C92.86 19.2794 92.8333 19.097 92.8464 18.9152V12.4059C92.8804 11.8346 92.6984 11.2716 92.3371 10.8306C92.1584 10.6441 91.942 10.4987 91.7026 10.4043C91.4632 10.3099 91.2065 10.2687 90.9499 10.2836C90.6107 10.2659 90.2722 10.329 89.9616 10.4677C89.651 10.6065 89.377 10.8169 89.1618 11.0822C88.6826 11.7536 88.4438 12.5695 88.4845 13.396V18.8988C88.4845 19.8451 87.8451 20.2062 86.9836 20.2062C86.122 20.2062 85.5151 19.8287 85.5151 18.8988V3.35851C85.5048 3.17899 85.5334 2.99936 85.5989 2.83214C85.6644 2.66492 85.7653 2.51414 85.8944 2.39032C86.2204 2.15145 86.6198 2.03708 87.0215 2.06758C87.4093 2.04089 87.7938 2.15539 88.1052 2.39032C88.2329 2.51429 88.3314 2.66568 88.3933 2.83328C88.4552 3.00088 88.479 3.18038 88.4628 3.35851V8.86135H88.4845ZM83.2448 9.95535C83.225 10.3278 83.0708 10.68 82.8113 10.9454C82.6868 11.0827 82.5364 11.1936 82.3689 11.2716C82.2015 11.3495 82.0203 11.393 81.836 11.3994C81.422 11.3769 81.0289 11.2085 80.7252 10.9235C80.1597 10.4523 79.4481 10.1968 78.7149 10.2015C78.3385 10.184 77.9636 10.2595 77.6227 10.4216C77.2817 10.5837 76.9852 10.8273 76.7588 11.1314C76.2294 11.9254 75.9725 12.8726 76.0273 13.8281C75.9735 14.7874 76.2448 15.7366 76.7967 16.5194C77.0166 16.8277 77.3078 17.0771 77.6449 17.2459C77.9821 17.4146 78.355 17.4976 78.7312 17.4876C79.4747 17.4762 80.1919 17.2078 80.7631 16.7272C81.0641 16.485 81.4304 16.3402 81.8143 16.3115C82.0049 16.3138 82.193 16.3552 82.3672 16.4332C82.5414 16.5113 82.6981 16.6243 82.8276 16.7655C83.0882 17.0054 83.2441 17.3398 83.261 17.6954C83.261 18.494 82.5079 19.0793 81.8902 19.4404C80.9101 19.9927 79.7987 20.2633 78.677 20.2226C77.9068 20.2463 77.1411 20.0965 76.4353 19.7843C75.7296 19.4721 75.1016 19.0052 74.5968 18.4175C73.5268 17.1233 72.9707 15.4743 73.0363 13.7898C72.9492 12.0869 73.5159 10.4157 74.6185 9.12391C75.1502 8.55022 75.7981 8.09889 76.518 7.80062C77.238 7.50235 78.0132 7.36413 78.7908 7.39538C79.8598 7.37213 80.9159 7.63443 81.8522 8.15571C82.4916 8.57691 83.2448 9.1622 83.2448 9.93894V9.95535ZM67.4932 19.0082C67.1279 19.4389 66.6687 19.7781 66.1515 19.9993C65.6344 20.2205 65.0735 20.3175 64.513 20.2827C63.8213 20.2973 63.1362 20.1444 62.515 19.8371C61.8938 19.5297 61.3545 19.0767 60.9422 18.5159C60.004 17.1427 59.5446 15.4937 59.6363 13.8281C59.5593 12.1698 60.0511 10.5354 61.0289 9.20049C61.4721 8.63167 62.0411 8.17559 62.6904 7.86877C63.3396 7.56195 64.0511 7.41294 64.7676 7.43367C65.2795 7.41145 65.79 7.50223 66.2636 7.69968C66.7371 7.89713 67.1623 8.1965 67.5094 8.5769C67.5853 7.77828 68.2247 7.4829 69.0158 7.4829C69.4005 7.46219 69.7813 7.56984 70.0995 7.78923C70.2256 7.91435 70.3231 8.06591 70.3848 8.2332C70.4466 8.4005 70.4713 8.57945 70.4571 8.75742V18.9043C70.4692 19.0807 70.4452 19.2577 70.3864 19.4243C70.3277 19.5909 70.2355 19.7435 70.1157 19.8725C69.7749 20.1091 69.3626 20.2176 68.9507 20.1788C68.1542 20.2062 67.5148 19.8834 67.4932 19.0082ZM53.8331 8.68631C54.3111 8.09822 54.9695 7.68757 55.7044 7.51919C56.4393 7.3508 57.2089 7.43427 57.8915 7.7564C58.0929 7.85657 58.2616 8.01281 58.3778 8.20667C58.4939 8.40052 58.5527 8.6239 58.5472 8.85041C58.5598 9.26313 58.4422 9.66924 58.2112 10.0101C58.1191 10.1522 57.994 10.2694 57.8466 10.3515C57.6992 10.4335 57.5342 10.4778 57.3659 10.4805C57.1616 10.4706 56.9594 10.4339 56.7645 10.3711C56.5312 10.3077 56.2908 10.2746 56.0492 10.2726C55.7308 10.2649 55.4154 10.3373 55.1316 10.4834C54.8478 10.6295 54.6045 10.8447 54.4237 11.1095C53.9769 11.8285 53.7594 12.6686 53.8006 13.5163V18.8879C53.8137 19.0664 53.7907 19.2458 53.733 19.4151C53.6752 19.5844 53.5839 19.74 53.4646 19.8725C53.136 20.1231 52.7255 20.2384 52.3159 20.1952C51.4543 20.1952 50.8312 19.8342 50.8312 18.8879V8.74648C50.8219 8.57143 50.8488 8.39635 50.9104 8.23244C50.972 8.06854 51.0668 7.91943 51.1888 7.79469C51.5265 7.56491 51.9319 7.45874 52.3376 7.49384C53.172 7.49384 53.8114 7.81657 53.8331 8.68631ZM40.4114 8.5769C40.6747 8.29546 40.98 8.05736 41.3163 7.87127C41.8858 7.57581 42.5183 7.42557 43.1586 7.43367C43.8757 7.409 44.5885 7.55625 45.2384 7.86336C45.8883 8.17048 46.4568 8.62871 46.8974 9.20049C47.866 10.5337 48.3571 12.1597 48.2899 13.8117C48.3689 15.4738 47.8981 17.1153 46.9516 18.4776C46.5376 19.0407 45.9957 19.4951 45.3714 19.8026C44.7472 20.1101 44.0589 20.2616 43.3645 20.2444C42.8133 20.2806 42.2612 20.1902 41.7497 19.9798C41.2382 19.7695 40.7806 19.4448 40.4114 19.0301V23.7124C40.4207 23.8909 40.3866 24.069 40.312 24.2312C40.2374 24.3933 40.1245 24.5344 39.9833 24.6423C39.6446 24.8496 39.2518 24.9487 38.8563 24.9268C38.4597 24.9567 38.0656 24.8422 37.7455 24.6041C37.522 24.3421 37.4075 24.003 37.4258 23.6577V8.76289C37.4136 8.58167 37.4429 8.40004 37.5115 8.23213C37.5801 8.06421 37.6861 7.91452 37.8214 7.79469C38.1499 7.59994 38.524 7.49726 38.9051 7.49726C39.2861 7.49726 39.6602 7.59994 39.9888 7.79469C40.1096 7.88784 40.2097 8.00563 40.2825 8.1404C40.3554 8.27516 40.3993 8.42389 40.4114 8.5769Z"
+									fill="#0D66B0" />
+								<path fill-rule="evenodd" clip-rule="evenodd"
+									d="M146.874 10.2071C146.488 10.1855 146.103 10.2629 145.754 10.4322C145.405 10.6015 145.105 10.8571 144.88 11.1753C144.376 11.9637 144.126 12.8905 144.165 13.8282C144.12 14.7765 144.379 15.7142 144.902 16.5031C145.12 16.8254 145.415 17.0868 145.76 17.2628C146.105 17.4388 146.488 17.5237 146.874 17.5096C147.263 17.5332 147.652 17.4592 148.006 17.294C148.359 17.1289 148.667 16.8778 148.901 16.5632C149.36 15.7262 149.601 14.7851 149.601 13.8282C149.601 12.8714 149.36 11.9303 148.901 11.0932C148.654 10.7966 148.343 10.5621 147.991 10.4083C147.639 10.2544 147.257 10.1856 146.874 10.2071ZM164.349 9.29359C164.748 8.69289 165.295 8.20748 165.936 7.8852C166.578 7.56291 167.291 7.41488 168.006 7.45567C168.553 7.43518 169.097 7.53685 169.6 7.75339C170.103 7.96994 170.553 8.29601 170.916 8.7083C171.68 9.65822 172.067 10.8614 172 12.0833V18.9318C172 19.8452 171.398 20.2227 170.553 20.2227C170.146 20.2524 169.742 20.1383 169.41 19.9C169.287 19.7727 169.191 19.6208 169.129 19.4541C169.068 19.2873 169.042 19.1094 169.052 18.9318V12.4443C169.094 11.8581 168.927 11.2762 168.581 10.8033C168.425 10.618 168.228 10.4721 168.006 10.3771C167.784 10.2821 167.543 10.2408 167.302 10.2563C166.993 10.241 166.684 10.3 166.401 10.4284C166.119 10.5567 165.87 10.7508 165.676 10.9948C165.237 11.6609 165.027 12.4551 165.08 13.2539V18.9044C165.08 19.8179 164.457 20.1953 163.612 20.1953C163.214 20.2221 162.818 20.1164 162.485 19.8945C162.359 19.7691 162.262 19.6175 162.2 19.4503C162.138 19.2831 162.114 19.1042 162.127 18.9263V12.4443C162.161 11.859 161.995 11.2797 161.656 10.8033C161.504 10.6184 161.311 10.4724 161.093 10.3773C160.874 10.2823 160.636 10.2408 160.399 10.2563C160.089 10.2406 159.781 10.2994 159.498 10.4277C159.215 10.5561 158.967 10.7505 158.773 10.9948C158.332 11.6604 158.12 12.4545 158.172 13.2539V18.9044C158.172 19.8562 157.516 20.1953 156.671 20.1953C155.826 20.1953 155.202 19.8343 155.202 18.9044V8.72471C155.193 8.5505 155.22 8.37626 155.282 8.21325C155.343 8.05025 155.438 7.9021 155.56 7.77839C155.892 7.55267 156.288 7.44489 156.687 7.47207C157.086 7.44614 157.482 7.55382 157.814 7.77839C157.943 7.89421 158.044 8.03811 158.11 8.19922C158.176 8.36032 158.204 8.53441 158.194 8.7083V8.79582C158.555 8.34695 159.015 7.98852 159.537 7.74847C160.058 7.50842 160.628 7.39324 161.201 7.4119C161.845 7.39545 162.482 7.5634 163.036 7.89636C163.59 8.22931 164.04 8.7137 164.333 9.29359H164.349ZM146.874 20.2336C146.089 20.2658 145.307 20.1204 144.586 19.8081C143.864 19.4958 143.22 19.0244 142.702 18.4285C141.655 17.1301 141.113 15.4903 141.179 13.8173C141.104 12.1429 141.646 10.4997 142.702 9.20607C143.251 8.64789 143.904 8.20488 144.623 7.90257C145.343 7.60027 146.114 7.44463 146.893 7.44463C147.672 7.44463 148.444 7.60027 149.163 7.90257C149.882 8.20488 150.535 8.64789 151.084 9.20607C152.141 10.5077 152.684 12.158 152.607 13.8392C152.676 15.5176 152.134 17.1636 151.084 18.4668C150.553 19.0544 149.901 19.5179 149.174 19.825C148.447 20.132 147.662 20.2752 146.874 20.2446V20.2336ZM139.678 9.93905C139.659 10.3115 139.504 10.6637 139.245 10.9291C139.121 11.0674 138.971 11.179 138.803 11.257C138.636 11.335 138.454 11.3779 138.27 11.3831C137.856 11.3606 137.463 11.1922 137.159 10.9072C136.594 10.4352 135.882 10.1795 135.149 10.1852C134.772 10.1677 134.397 10.2432 134.056 10.4053C133.715 10.5674 133.419 10.811 133.192 11.1151C132.657 11.9071 132.395 12.8545 132.445 13.8118C132.391 14.7711 132.662 15.7203 133.214 16.5031C133.434 16.8114 133.725 17.0608 134.062 17.2296C134.399 17.3983 134.772 17.4813 135.149 17.4713C135.892 17.4599 136.609 17.1915 137.18 16.7109C137.481 16.4687 137.848 16.3239 138.232 16.2952C138.422 16.2975 138.61 16.3389 138.785 16.4169C138.959 16.495 139.115 16.6081 139.245 16.7492C139.506 16.9891 139.662 17.3235 139.678 17.6791C139.678 18.4777 138.925 19.063 138.308 19.4241C137.327 19.9759 136.216 20.2464 135.094 20.2063C134.324 20.2303 133.558 20.0808 132.853 19.7686C132.147 19.4563 131.519 18.9892 131.014 18.4012C129.944 17.107 129.388 15.458 129.454 13.7735C129.367 12.0717 129.932 10.4013 131.03 9.10761C131.562 8.53392 132.21 8.08259 132.93 7.78432C133.65 7.48605 134.425 7.34784 135.203 7.37909C136.281 7.35723 137.345 7.62531 138.286 8.15583C138.909 8.57702 139.678 9.16231 139.678 9.93905Z"
+									fill="#0D66B0" />
+								<path
+									d="M125.731 20.2444C126.644 20.2444 127.384 19.4975 127.384 18.5761C127.384 17.6547 126.644 16.9077 125.731 16.9077C124.819 16.9077 124.079 17.6547 124.079 18.5761C124.079 19.4975 124.819 20.2444 125.731 20.2444Z"
+									fill="#0D66B0" />
+							</g>
+							<defs>
+								<clipPath id="clip0_308_2882">
+									<rect width="172" height="27" fill="white" />
+								</clipPath>
+							</defs>
+						</svg>
+					</a>
+					<div class="header__items">
+						<nav class="mobile-nav">
+							<ul class="mobile-nav__lists">
+								<li class="mobile-nav__list"><a
+										class="mobile-nav__link <?=this_page_id_id(16)?'_active':''?>"
+										href="<?=get_permalink(16)?>">Стирка</a></li>
+								<li class="mobile-nav__list"><a
+										class="mobile-nav__link <?=this_page_id_id(18)?'_active':''?>"
+										href="<?=get_permalink(18)?>">Химчистка</a></li>
+								<li class="mobile-nav__list"><a
+										class="mobile-nav__link <?=this_page_id_id(20)?'_active':''?>"
+										href="<?=get_permalink(20)?>">Адреса</a></li>
+								<li class="mobile-nav__list"><a
+										class="mobile-nav__link <?=this_page_id_id(22)?'_active':''?>"
+										href="<?=get_permalink(22)?>">Доставка</a></li>
+							</ul>
+						</nav>
+					</div>
+					<div class="header__right">
+						<a href="tel:+78123183441" class="header__phone">
+							<img src="<?=get_template_directory_uri()?>/assets/images/icons/tel.svg" alt="">
+							+7 (812) 318-34-41
+						</a>
+						<div class="header__location">
+							<div class="location">
+								<div class="location__current">
+									<svg class="location__icon">
+										<use
+											xlink:href="<?=get_template_directory_uri()?>/assets/images/sprites.svg#location-3">
+										</use>
+									</svg>
+									Санкт-Петербург
+									<!-- <img class="location__icon" src="/assets/images/sprites/" alt="">Санкт-Петербург -->
+								</div>
+								<div class="location__items"><a class="location__item"
+										href="https://msk.prachka.com">Москва</a><a class="location__item"
+										href="https://kzn.prachka.com">Казань</a><a class="location__item"
+										href="https://tomsk.prachka.com">Томск</a><a class="location__item"
+										href="https://tumen.prachka.com">Тюмень</a><a class="location__item"
+										href="https://nsk.prachka.com">Новосибирск</a><a class="location__item"
+										href="https://ekb.prachka.com">Екатеринбург</a><a class="location__item"
+										href="https://eng.prachka.com">Энгельс</a><a class="location__item"
+										href="https://krd.prachka.com">Краснодар</a><a class="location__item"
+										href="https://bryansk.prachka.com">Брянск</a><a class="location__item"
+										href="https://omsk.prachka.com">Омск</a><a class="location__item"
+										href="https://volzhsky.prachka.com">Волжский</a><a class="location__item"
+										href="https://ulan-ude.prachka.com">Улан-Удэ</a><a class="location__item"
+										href="https://ufa.prachka.com">Уфа</a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+
+		<main class="content new-font">
+			<section class="intro-block">
+				<div class="intro-block__container container">
+					<div class="intro-block__body">
+						<div class="intro-block__item">
+							<h1 class="intro-block__title intro-block__title_page-2">
+								Химчистка пуховика
+							</h1>
+							<div class="intro-block__label intro-block__label_page-2">
+								Выведем сложные пятна, оплата за результат
+							</div>
+							<div class="intro-block__buttons intro-block__buttons_page-2">
+								<a href="<?=get_permalink(20)?>" class="intro-block__button button-green _active">
+									Вызвать курьера
+								</a>
+								<a class="intro-block__button button button-new js-modal--open">Адреса пунктов приёма </a>
+							</div>
+							<div class="intro-block__texts intro-block__texts_page-2">
+								<p>
+									Бесплатная доставка от <span>1590 ₽</span>, <br> при заказе на меньшую сумму —  <span>390 ₽</span>
+								</p>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="intro-block__image-2 intro-block__image">
+					<img src="/assets/images/intro-block/02.png" alt="">
+				</div>
+				<!-- <div class="intro-block__image-2 intro-block__image">
+					<img src="/assets/images/intro-block/01.png" alt="">
+				</div> -->
+				<div class="intro-block__bg">
+					<img src="/assets/images/products/bg.svg" alt="">
+				</div>
+			</section>
+			<section class="products services">
+				<div class="container">
+					<!--breadcrumbs-->
+					<style type="text/css">
+						.breadcrumbs a {
+							color: black;
+						}
+					</style>
+					<div class="breadcrumbs" style="font-size: 14px; color: gray;">
+						<?php if(function_exists('bcn_display')){bcn_display();}?>
+					</div><br>
+					<!--breadcrumbs-->
+				</div>
+				<div class="container">
+					<div class="services__wrapper">
+						<h2 class="products__title setrvices__title">Стоимость услуг</h2>
+						<div class="products__body">
+							<div class="products__row">
+								<div class="products__column">
+									<div class="products__banner products-banner">
+										<div class="products-banner__label products-label">
+											Аквачистка
+										</div>
+										<h3 class="products-banner__title">
+											Чистка пуховика - хит сезона
+										</h3>
+										<div class="products-banner__price products-price">
+											790 рублей
+										</div>
+										<div class="products-banner__item">
+											<div class="products-banner__icon">
+												<img src="<?=get_template_directory_uri()?>/assets/images/icons/clock.svg"
+													alt="">
+											</div>
+											<p class="products-banner__text">
+												Готовность заказа <br>
+												до 3 часов
+											</p>
+										</div>
+										<div class="products-banner__item">
+											<div class="products-banner__icon">
+												<img src="<?=get_template_directory_uri()?>/assets/images/icons/discount.svg"
+													alt="">
+											</div>
+											<p class="products-banner__text">
+												Дешевле химчистки <br>
+												на 560 у
+											</p>
+										</div>
+										<div class="products-banner__bg">
+											<img src="<?=get_template_directory_uri()?>/assets/images/products/bg.svg"
+												alt="">
+										</div>
+										<div class="products-banner__image">
+											<img src="<?=get_template_directory_uri()?>/assets/images/products/banner-image.png"
+												alt="">
+										</div>
+									</div>
+								</div>
+								<div class="products__column">
+									<div class="products__items">
+										<a href="#" class="products__item products-item">
+											<div class="products-item__label products-label">
+												Химчистка
+											</div>
+											<div class="products-item__top">
+												<div class="products-item__image">
+													<img src="<?=get_template_directory_uri()?>/assets/images/products/item-1.png"
+														alt="">
+												</div>
+											</div>
+											<div class="products-item__content">
+												<div class="products-item__title">
+													Чистка пуховика
+												</div>
+												<div class="products-item__price products-price">
+													1350 ₽
+												</div>
+											</div>
+
+										</a>
+										<a href="#" class="products__item products-item">
+											<div class="products-item__label products-label">
+												Химчистка
+											</div>
+											<div class="products-item__top">
+												<div class="products-item__image">
+													<img src="<?=get_template_directory_uri()?>/assets/images/products/item-2.png"
+														alt="">
+												</div>
+											</div>
+
+											<div class="products-item__content">
+												<div class="products-item__title">
+													Чистка пальто
+												</div>
+												<div class="products-item__price products-price">
+													1450 ₽
+												</div>
+											</div>
+
+										</a>
+										<a href="#" class="products__item products-item">
+											<div class="products-item__label products-label">
+												Химчистка
+											</div>
+											<div class="products-item__top">
+												<div class="products-item__image">
+													<img src="<?=get_template_directory_uri()?>/assets/images/products/item-3.png"
+														alt="">
+												</div>
+											</div>
+											<div class="products-item__content">
+												<div class="products-item__title">
+													Чистка плаща
+												</div>
+												<div class="products-item__price products-price">
+													1100 ₽
+												</div>
+											</div>
+
+										</a>
+										<a href="#" class="products__item products-item">
+											<div class="products-item__label products-label">
+												Химчистка
+											</div>
+											<div class="products-item__top">
+												<div class="products-item__image">
+													<img src="<?=get_template_directory_uri()?>/assets/images/products/item-4.png"
+														alt="">
+												</div>
+											</div>
+											<div class="products-item__content">
+												<div class="products-item__title">
+													Зимний комбинезон
+												</div>
+												<div class="products-item__price products-price">
+													2750 ₽
+												</div>
+											</div>
+
+										</a>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="products__buttons">
+							<a href="<?=get_permalink(20)?>" class="products__button button-new">Адреса пунктов</a>
+							<a class="products__button button button-new _border js-modal--open">Вызвать курьера</a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="technology">
+				<div class="technology__container container">
+					<div class="technology__body">
+						<div class="technology__top">
+							<h2 class="technology__title title">
+								Химчистка верхней одежды в Санкт-Петербурге
+							</h2>
+						</div>
+						<div class="technology__content">
+
+							<div class="technology__slides">
+								<div class="technology__content-top">
+									<p class="technology__main-text">
+										Верхняя одежда, как взрослая, так и детская, нуждается в периодической
+										химчистке.
+										Рекомендуется производить профессиональную чистку верхней одежды один раз в
+										течение
+										сезона.
+									</p>
+								</div>
+								<div class="technology__columns">
+									<div class="technology__column">
+										<div class="technology__par">
+											<div class="technology__subtitle">
+												Как почистить верхнюю одежду дома?
+											</div>
+											<p class="technology__text">
+												Качественно вычистить дома верхнюю одежду очень сложно. Кроме того, ряд
+												изделий верхней одежды стирать вообще не рекомендуется, потому как это
+												может
+												нанести непоправимый вред одежде.
+											</p>
+										</div>
+										<div class="technology__par">
+											<div class="technology__subtitle">
+												Чтобы почистить пальто, куртку, плащ и пр. дома, необходимо:
+											</div>
+											<ul class="technology__list">
+												<ol class="technology__point">
+													1. Высокий сервис обслуживания.
+												</ol>
+												<ol class="technology__point">
+													2. Стопроцентная гарантия качества выполненной работы.
+												</ol>
+												<ol class="technology__point">
+													3. Профессиональная химчистка возвращает прежние насыщенные, яркие
+													цвета
+													изделию.
+												</ol>
+												<ol class="technology__point">
+													4. В процессе чистки в специальных сервисах используются только
+													безвредные вещества.
+												</ol>
+												<ol class="technology__point">
+													5. Изделие не теряет своей формы, размеры не искажаются,
+													первоначальное
+													качество не деформируется.
+												</ol>
+												<ol class="technology__point">
+													6. Профессиональная химчистка способна удалить даже самые
+													закоренелые,
+													въевшиеся пятна.
+												</ol>
+											</ul>
+										</div>
+										<div class="technology__par">
+											<p class="technology__main-text">
+												Вы можете позвонить нам в любое время, чтобы уточнить цены на химчистку
+												любой
+												верхней одежды. Мы сами заберем вашу одежду с любого адреса в
+												Санкт-Петербурге и
+												доставим по месту назначения после выполнения работы. Звоните и заранее
+												уточняйте цены.
+											</p>
+										</div>
+									</div>
+									<div class="technology__column">
+										<div class="technology__par">
+											<div class="technology__subtitle">
+												Почему нужно отдавать верхнюю одежду в специализированные прачечные?
+											</div>
+											<p class="technology__main-text">
+												Профессионально почистить верхнюю одежду дома так, чтобы она выглядела
+												словно
+												новая, весьма проблематично по нескольким причинам:
+											</p>
+											<ul class="technology__list">
+												<ol class="technology__point">
+													1. Существует большая вероятность того, что пятна не отстираются.
+												</ol>
+												<ol class="technology__point">
+													2. Есть риск испортить тканевую, кожаную поверхность верхней одежды.
+												</ol>
+												<ol class="technology__point">
+													3. Домашние стиральные порошки, как правило, оставляют пятна и
+													разводы.
+												</ol>
+											</ul>
+										</div>
+										<div class="technology__par">
+											<p class="technology__main-text">
+												Чтобы не испортить изделие, не деформировать размеры и сохранить
+												первоначальный
+												цвет, лучше отдать куртку, плащ, пуховик и пр. в профессиональную
+												химчистку
+												верхней одежды в Санкт-Петербурге.
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="intro">
+				<div class="intro__container container">
+					<div class="intro__body">
+						<div class="intro__row">
+							<div class="intro__column">
+								<h2 class="intro__title">
+									Сомневаетесь, <br>
+									<span>какая чистка</span>
+									вам подходит?
+								</h2>
+							</div>
+							<div class="intro__column">
+								<div class="intro__text">
+									<p>
+										Мы за индивидуальный подход! Отправьте нам фото вашей одежды и загрязнений на
+										ней. Наши технологи подскажут, какой вариант чистки подходит именно вам.
+									</p>
+								</div>
+								<div class="intro__buttons">
+									<a href="https://wa.me/79522337369" class="intro__button button-new">Отправить
+										фото</a>
+									<a href="tel:+78123183441" class="intro__button button-new _border">Позвонить</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="benefits">
+				<div class="benefits__container container">
+					<div class="benefits__body">
+						<div class="benefits__top">
+							<h2 class="benefits__title title">
+								Как мы работаем
+							</h2>
+						</div>
+						<div class="benefits__row">
+							<div class="benefits__item benefits-item">
+								<div class="benefits-item__top">
+									<div class="benefits-item__icon">
+										<img src="<?=get_template_directory_uri()?>/assets/images/icons/benefit-1.svg"
+											alt="">
+									</div>
+									<div class="benefits-item__label">
+										Прием вещей
+									</div>
+								</div>
+								<div class="benefits-item__text">
+									<p>
+										Сдайте вещи в ближайший пункт приема или вызовите курьера на дом.
+									</p>
+								</div>
+							</div>
+							<div class="benefits__item benefits-item">
+								<div class="benefits-item__top">
+									<div class="benefits-item__icon">
+										<img src="<?=get_template_directory_uri()?>/assets/images/icons/benefit-2.svg"
+											alt="">
+									</div>
+									<div class="benefits-item__label">
+										Оценка состояния
+									</div>
+								</div>
+								<div class="benefits-item__text">
+									<p>
+										Технолог изучит каждое изделие: состав и структуру ткани, типы пятен
+										и загрязнений. Затем определит допустимые способы обработки.
+									</p>
+								</div>
+							</div>
+							<div class="benefits__item benefits-item">
+								<div class="benefits-item__top">
+									<div class="benefits-item__icon">
+										<img src="<?=get_template_directory_uri()?>/assets/images/icons/benefit-3.svg"
+											alt="">
+									</div>
+									<div class="benefits-item__label">
+										Чистка изделия
+									</div>
+								</div>
+								<div class="benefits-item__text">
+									<p>
+										Мы производим чистку изделий по допустимым технологиям, что позволяет
+										эффективно справиться с загрязнениями и гарантирует сохранность ваших вещей
+									</p>
+								</div>
+							</div>
+							<div class="benefits__item benefits-item">
+								<div class="benefits-item__top">
+									<div class="benefits-item__icon">
+										<img src="<?=get_template_directory_uri()?>/assets/images/icons/benefit-4.svg"
+											alt="">
+									</div>
+									<div class="benefits-item__label">
+										Финальная обработка
+									</div>
+								</div>
+								<div class="benefits-item__text">
+									<p>
+										После чистки мы обрабатываем вещи с помощью пара, что гарантирует сохранность
+										формы и придаёт вещам безупречный вид.
+									</p>
+								</div>
+							</div>
+							<div class="benefits__item benefits-item">
+								<div class="benefits-item__top">
+									<div class="benefits-item__icon">
+										<img src="<?=get_template_directory_uri()?>/assets/images/icons/benefit-5.svg"
+											alt="">
+									</div>
+									<div class="benefits-item__label">
+										Упаковка
+									</div>
+								</div>
+								<div class="benefits-item__text">
+									<p>
+										Комплектуем вашу одежду вешалками и помещаем в специальные чехлы
+								</div>
+							</div>
+							<div class="benefits__item benefits-item">
+								<div class="benefits-item__top">
+									<div class="benefits-item__icon">
+										<img src="<?=get_template_directory_uri()?>/assets/images/icons/benefit-6.svg"
+											alt="">
+									</div>
+									<div class="benefits-item__label">
+										Готово
+									</div>
+								</div>
+								<div class="benefits-item__text">
+									<p>
+										Заберите готовый заказ из пункта приёма, в который сдали вещи или закажите
+										курьерскую доставку
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="comments">
+				<div class="comments__container container">
+					<div class="comments__body">
+						<div class="comments__top">
+							<h2 class="comments__title title">
+								Отзывы
+							</h2>
+						</div>
+						<div class="comments__content">
+							<div class="comments__slider swiper" style="position: relative;">
+								<div class="comments__wrapper swiper-wrapper">
+									<div class="comments__slide swiper-slide">
+										<div class="comments__item comments-item">
+											<div class="comments-item__top">
+												<div class="comments-item__left">
+													<img src="<?=get_template_directory_uri()?>/assets/images/avatar.png"
+														alt="">
+												</div>
+												<div class="comments-item__right">
+													<div class="comments-item__title">
+														Оксана Г.
+													</div>
+													<div class="comments-item__label">
+														Услуга: Чистка пуховика
+													</div>
+												</div>
+											</div>
+											<div class="comments-item__content">
+												<div class="comments-item__text">
+													<p>
+														Очень хорошая химчистка. Сдала сразу несколько пуховиков,
+														с заказом справились быстро, большое спасибо приёмщице пункта
+														на улице Непокорённых за помощь)
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="comments__slide swiper-slide">
+										<div class="comments__item comments-item">
+											<div class="comments-item__top">
+												<div class="comments-item__left">
+													<img src="<?=get_template_directory_uri()?>/assets/images/avatar.png"
+														alt="">
+												</div>
+												<div class="comments-item__right">
+													<div class="comments-item__title">
+														Оксана Г.
+													</div>
+													<div class="comments-item__label">
+														Услуга: Чистка пуховика
+													</div>
+												</div>
+											</div>
+											<div class="comments-item__content">
+												<div class="comments-item__text">
+													<p>
+														Очень хорошая химчистка. Сдала сразу несколько пуховиков,
+														с заказом справились быстро, большое спасибо приёмщице пункта
+														на улице Непокорённых за помощь)
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="comments__slide swiper-slide">
+										<div class="comments__item comments-item">
+											<div class="comments-item__top">
+												<div class="comments-item__left">
+													<img src="<?=get_template_directory_uri()?>/assets/images/avatar.png"
+														alt="">
+												</div>
+												<div class="comments-item__right">
+													<div class="comments-item__title">
+														Оксана Г.
+													</div>
+													<div class="comments-item__label">
+														Услуга: Чистка пуховика
+													</div>
+												</div>
+											</div>
+											<div class="comments-item__content">
+												<div class="comments-item__text">
+													<p>
+														Очень хорошая химчистка. Сдала сразу несколько пуховиков,
+														с заказом справились быстро, большое спасибо приёмщице пункта
+														на улице Непокорённых за помощь)
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="comments__slide swiper-slide">
+										<div class="comments__item comments-item">
+											<div class="comments-item__top">
+												<div class="comments-item__left">
+													<img src="<?=get_template_directory_uri()?>/assets/images/avatar.png"
+														alt="">
+												</div>
+												<div class="comments-item__right">
+													<div class="comments-item__title">
+														Оксана Г.
+													</div>
+													<div class="comments-item__label">
+														Услуга: Чистка пуховика
+													</div>
+												</div>
+											</div>
+											<div class="comments-item__content">
+												<div class="comments-item__text">
+													<p>
+														Очень хорошая химчистка. Сдала сразу несколько пуховиков,
+														с заказом справились быстро, большое спасибо приёмщице пункта
+														на улице Непокорённых за помощь)
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="comments__bottom">
+								<div class="comments__pagination">
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="section-map">
+				<div class="section-map__container container">
+					<div class="section-map__frame">
+						<iframe
+							src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d128036.9939311697!2d30.237308803980326!3d59.90595376655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sPrachka.com!5e0!3m2!1sru!2sru!4v1650670207814!5m2!1sru!2sru"
+							style="border:0;" allowfullscreen="" loading="lazy"
+							referrerpolicy="no-referrer-when-downgrade"></iframe>
+					</div>
+				</div>
+
+			</section>
+			<section class="questions">
+				<div class="questions__container container">
+					<div class="questions__body">
+						<div class="questions__top">
+							<h2 class="questions__title title">
+								Частые вопросы
+							</h2>
+						</div>
+						<div class="questions__content">
+							<div class="questions__row" data-spollers>
+								<div class="questions__item questions-item">
+									<div class="questions-item__top _active" data-spoller>
+										<div class="questions-item__left">
+											<div class="questions-item__icon">
+												<img src="<?=get_template_directory_uri()?>/assets/images/icons/questions-1.svg"
+													alt="">
+											</div>
+											<div class="questions-item__title">
+												Как вы упаковываете вещи?
+											</div>
+										</div>
+										<div class="questions-item__arrow">
+											<img src="<?=get_template_directory_uri()?>/assets/images/icons/arrow.svg"
+												alt="">
+										</div>
+									</div>
+									<div class="questions-item__content">
+										<div class="questions-item__text">
+											<p>
+												При приёмке курьер сложит все ваши вещи в один большой мешок. Вещи из
+												химчистки вернем на вешалках
+												в полиэтиленовых чехлах, а вещи из стирки - аккуратно сложенными в
+												пакете.
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="questions__item questions-item">
+									<div class="questions-item__top _active" data-spoller>
+										<div class="questions-item__left">
+											<div class="questions-item__icon">
+												<img src="<?=get_template_directory_uri()?>/assets/images/icons/questions-2.svg"
+													alt="">
+											</div>
+											<div class="questions-item__title">
+												Когда мне нужно оплатить заказ?
+											</div>
+										</div>
+										<div class="questions-item__arrow">
+											<img src="<?=get_template_directory_uri()?>/assets/images/icons/arrow.svg"
+												alt="">
+										</div>
+									</div>
+									<div class="questions-item__content">
+										<div class="questions-item__text">
+											<p>
+												Оплата производится при получении вещи.
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="questions__item questions-item">
+									<div class="questions-item__top _active" data-spoller>
+										<div class="questions-item__left">
+											<div class="questions-item__icon">
+												<img src="<?=get_template_directory_uri()?>/assets/images/icons/questions-3.svg"
+													alt="">
+											</div>
+											<div class="questions-item__title">
+												Не могу найти вещь в прайс листе. Что делать?
+											</div>
+										</div>
+										<div class="questions-item__arrow">
+											<img src="<?=get_template_directory_uri()?>/assets/images/icons/arrow.svg"
+												alt="">
+										</div>
+									</div>
+									<div class="questions-item__content">
+										<div class="questions-item__text">
+											<p>
+												Мы не принимаем ковры и натуральную кожу. В остальных случаях позвоните
+												или напишите нам — ответим на любые вопросы.
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="questions__item questions-item">
+									<div class="questions-item__top _active" data-spoller>
+										<div class="questions-item__left">
+											<div class="questions-item__icon">
+												<img src="<?=get_template_directory_uri()?>/assets/images/icons/questions-4.svg"
+													alt="">
+											</div>
+											<div class="questions-item__title">
+												Могу ли я оплатить заказ наличными?
+											</div>
+										</div>
+										<div class="questions-item__arrow">
+											<img src="<?=get_template_directory_uri()?>/assets/images/icons/arrow.svg"
+												alt="">
+										</div>
+									</div>
+									<div class="questions-item__content">
+										<div class="questions-item__text">
+											<p>
+												Да, можете!
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="questions__bottom">
+								<a href="https://prachka.com/faq/" class="questions__button button-new">
+									Частые вопросы
+								</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="new-contacts">
+				<div class="new-contacts__container container">
+					<div class="new-contacts__body">
+						<div class="new-contacts__wrapper">
+							<div class="new-contacts__top">
+								<h3 class="new-contacts__title">
+									Отвечаем на звонки и сообщения <br>
+									<span>с 10:00 до 22:00</span>
+
+								</h3>
+							</div>
+							<div class="new-contacts__row">
+								<div class="new-contacts__item">
+									<a class="new-contacts__link" href="https://wa.me/79522337369" target="_blank"
+										rel="nofollow" title="Whatsapp">
+										<img src="<?=get_template_directory_uri()?>/assets/images/new-contacts/whatsapp.svg"
+											alt="">
+									</a>
+								</div>
+								<div class="new-contacts__item">
+									<a class="new-contacts__link" href="https://t.me/Prachka_sitebot" target="_blank"
+										rel="nofollow" title="Telegram">
+										<img src="<?=get_template_directory_uri()?>/assets/images/new-contacts/tg.svg"
+											alt="">
+									</a>
+								</div>
+								<div class="new-contacts__item">
+									<a class="new-contacts__link" href="https://vk.com/prachkacom" target="_blank"
+										rel="nofollow" title="ВКонтакте">
+										<img src="<?=get_template_directory_uri()?>/assets/images/new-contacts/vk.svg"
+											alt="">
+									</a>
+								</div>
+								<div class="new-contacts__item">
+									<a class="new-contacts__link" href="tel:+78123183441" target="_blank" rel="nofollow"
+										title="Позвонить">
+										<img src="<?=get_template_directory_uri()?>/assets/images/new-contacts/phone.svg"
+											alt="">
+									</a>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<div class="container">
+				<div class="footer__wrapper">
+					<div class="footer__left">
+						<div class="footer__logo">
+							<svg xmlns="http://www.w3.org/2000/svg" width="222" height="36" viewbox="0 0 222 36"
+								fill="none">
+								<path
+									d="M161.778 28.2346C156.491 25.9623 160.053 20.2903 163.782 21.2923C166.064 21.9006 166.769 23.4394 166.676 24.9424C166.583 26.5885 164.097 28.3241 162.075 26.177C162.78 26.6422 164.635 26.177 164.506 24.5845C164.45 23.8688 163.652 23.2068 162.743 23.2605C160.554 23.3857 159.738 26.0696 161.778 28.2346Z"
+									fill="white"></path>
+								<path fill-rule="evenodd" clip-rule="evenodd"
+									d="M153.114 15.2446C153.114 14.3679 152.892 13.5448 152.28 12.8649C151.704 12.2387 150.981 11.9524 150.127 11.9524C149.126 11.9524 148.328 12.3102 147.734 13.1154C147.048 14.0637 146.862 15.2625 146.862 16.3898C146.862 17.517 147.048 18.7874 147.753 19.7357C148.346 20.5051 149.126 20.8808 150.127 20.8808C150.999 20.8808 151.742 20.6124 152.298 19.9504C152.892 19.2705 153.114 18.4653 153.114 17.6065V15.2446ZM88.4216 15.2446C88.4216 14.3679 88.199 13.5448 87.5868 12.8649C87.0116 12.2387 86.2881 11.9524 85.4347 11.9524C84.4328 11.9524 83.6351 12.3102 83.0414 13.1154C82.3549 14.0637 82.1694 15.2625 82.1694 16.3898C82.1694 17.517 82.3549 18.7874 83.0599 19.7357C83.6351 20.5051 84.4328 20.8808 85.4347 20.8808C86.3066 20.8808 87.0487 20.6124 87.6053 19.9504C88.199 19.2705 88.4216 18.4653 88.4216 17.6065V15.2446ZM53.8211 17.5886C53.8211 18.4653 54.0437 19.2705 54.6374 19.9504C55.194 20.6124 55.9361 20.8808 56.8081 20.8808C57.8099 20.8808 58.6077 20.523 59.1828 19.7357C59.8878 18.7874 60.0733 17.5349 60.0733 16.4077C60.0733 15.2983 59.8878 14.0637 59.2013 13.1333C58.6262 12.3281 57.8285 11.9703 56.8081 11.9703C55.9546 11.9703 55.2125 12.2387 54.656 12.8828C54.0623 13.5627 53.8397 14.3858 53.8397 15.2625V17.5886H53.8211ZM153.114 22.7059C152.187 23.7794 150.87 24.2267 149.33 24.2267C147.456 24.2267 145.916 23.511 144.766 22.0796C143.467 20.4693 143.077 18.3937 143.077 16.3898C143.077 14.3679 143.504 12.346 144.84 10.7536C146.064 9.28639 147.697 8.60646 149.627 8.60646C151.037 8.60646 152.242 9.05378 153.133 10.0021C153.244 9.018 154.042 8.66014 155.044 8.66014C155.508 8.66014 156.064 8.73171 156.435 9.03589C156.806 9.32217 156.899 9.78738 156.899 10.2347V22.6164C156.899 23.0458 156.806 23.511 156.472 23.8152C156.101 24.1373 155.471 24.191 154.988 24.191C153.968 24.1731 153.133 23.7973 153.114 22.7059ZM132.632 13.8132C133.337 13.2407 134.024 12.6144 134.655 11.9703C135.434 11.1651 136.157 10.3242 136.807 9.42953C136.974 9.19692 137.196 8.96432 137.438 8.82118C137.679 8.67804 137.957 8.62436 138.217 8.62436C138.736 8.62436 139.181 8.78539 139.59 9.10746C139.942 9.39374 140.22 9.75159 140.22 10.2168C140.22 10.6104 140.072 10.9862 139.868 11.3261C139.534 11.8987 138.94 12.5428 138.495 13.0438C137.79 13.8132 137.011 14.5289 136.194 15.191C136.955 15.9246 137.66 16.7655 138.291 17.6065C138.94 18.4653 139.608 19.3421 140.183 20.2546C140.443 20.684 140.814 21.2566 141 21.7218C141.092 21.9544 141.167 22.2228 141.167 22.4912C141.167 22.9743 140.944 23.3858 140.573 23.7079C140.165 24.0478 139.682 24.2088 139.163 24.2088C138.848 24.2088 138.551 24.1552 138.272 23.9941C137.938 23.8331 137.697 23.4753 137.53 23.1532C136.899 22.0081 136.213 20.8987 135.434 19.843C134.784 18.9842 134.079 18.1611 133.3 17.4275C133.096 17.5886 132.836 17.7854 132.614 17.8927V22.5985C132.614 23.7615 131.76 24.1731 130.684 24.1731C129.608 24.1731 128.811 23.7257 128.811 22.5985V3.54285C128.811 3.09553 128.922 2.66611 129.293 2.37983C129.664 2.09354 130.258 2.02197 130.721 2.02197C131.185 2.02197 131.76 2.09354 132.131 2.37983C132.503 2.66611 132.614 3.09553 132.614 3.54285V13.8132H132.632ZM115.249 10.3242C116.288 9.17903 117.66 8.60646 119.33 8.60646C120.814 8.60646 122.15 9.05378 123.171 10.1273C124.247 11.2546 124.599 12.7218 124.599 14.2248V22.5806C124.599 23.7079 123.82 24.1731 122.725 24.1731C122.243 24.1731 121.649 24.1194 121.278 23.7794C120.926 23.4753 120.814 23.0279 120.814 22.5806V14.6542C120.814 13.9564 120.666 13.2586 120.165 12.7397C119.701 12.2387 119.07 12.0597 118.384 12.0597C117.475 12.0597 116.677 12.346 116.102 13.0438C115.453 13.8311 115.267 14.8689 115.267 15.853V22.5806C115.267 23.7436 114.432 24.1731 113.338 24.1731C112.243 24.1731 111.464 23.7079 111.464 22.5806V3.59653C111.464 3.14921 111.575 2.71979 111.946 2.41561C112.317 2.09354 112.911 2.02197 113.393 2.02197C113.857 2.02197 114.432 2.09354 114.803 2.39772C115.156 2.70189 115.267 3.14921 115.267 3.57863V10.3242H115.249ZM108.551 11.6482C108.551 12.1134 108.31 12.5071 107.995 12.847C107.661 13.187 107.252 13.4017 106.752 13.4017C106.214 13.4017 105.731 13.1512 105.342 12.8291C104.581 12.2387 103.746 11.9524 102.781 11.9524C101.761 11.9524 100.908 12.3102 100.277 13.0796C99.5161 13.9922 99.3305 15.2446 99.3305 16.3719C99.3305 17.5349 99.5532 18.7337 100.314 19.6641C100.945 20.4514 101.761 20.8629 102.8 20.8629C103.783 20.8629 104.637 20.5051 105.397 19.9325C105.768 19.6641 106.251 19.4315 106.733 19.4315C107.252 19.4315 107.679 19.6283 108.032 19.9862C108.347 20.2904 108.588 20.684 108.588 21.1313C108.588 22.0975 107.624 22.8132 106.844 23.2784C105.601 23.9941 104.173 24.2446 102.726 24.2446C100.648 24.2446 98.8853 23.5468 97.5124 22.0617C96.0653 20.4693 95.5087 18.5011 95.5087 16.4077C95.5087 14.3142 96.0282 12.2745 97.5309 10.7178C98.9595 9.23271 100.796 8.60646 102.874 8.60646C104.266 8.60646 105.601 8.87486 106.807 9.55478C107.586 9.9842 108.551 10.682 108.551 11.6482ZM88.4216 22.7059C87.494 23.7794 86.1768 24.2267 84.6369 24.2267C82.7631 24.2267 81.2232 23.511 80.073 22.0796C78.7743 20.4693 78.3661 18.3937 78.3661 16.3898C78.3661 14.3679 78.8114 12.346 80.1286 10.7536C81.3531 9.28639 82.9857 8.60646 84.9152 8.60646C86.3252 8.60646 87.5311 9.05378 88.4216 10.0021C88.5329 9.018 89.3307 8.66014 90.3325 8.66014C90.7964 8.66014 91.3529 8.73171 91.724 9.03589C92.095 9.32217 92.1878 9.78738 92.1878 10.2347V22.6164C92.1878 23.0458 92.095 23.511 91.7611 23.8152C91.39 24.1373 90.7593 24.191 90.2769 24.191C89.2565 24.1731 88.4402 23.7973 88.4216 22.7059ZM70.9451 10.1273C71.7614 9.12535 72.856 8.58857 74.2846 8.58857C74.9154 8.58857 75.5647 8.69593 76.1398 8.98221C76.6779 9.26849 76.9747 9.69792 76.9747 10.2884C76.9747 10.7894 76.8634 11.2904 76.548 11.7019C76.2882 12.0419 75.9358 12.2923 75.4719 12.2923C75.2308 12.2923 74.9339 12.2208 74.7113 12.1492C74.4144 12.0776 74.099 12.0419 73.8022 12.0419C72.9302 12.0419 72.2623 12.3818 71.7429 13.0617C71.1306 13.9027 70.9637 15.012 70.9637 16.014V22.5806C70.9637 23.01 70.8709 23.4753 70.537 23.7794C70.1659 24.1194 69.5537 24.1731 69.0713 24.1731C67.9582 24.1731 67.1789 23.7257 67.1789 22.5806V10.181C67.1789 9.75159 67.2903 9.32217 67.6428 9.018C68.0138 8.69593 68.626 8.64225 69.1084 8.64225C70.1103 8.64225 70.9451 9.03589 70.9451 10.1273ZM53.8025 9.96631C54.1365 9.62635 54.5261 9.34006 54.9714 9.12535C55.7135 8.7675 56.4927 8.60646 57.3275 8.60646C59.257 8.60646 60.8896 9.28639 62.1141 10.7715C63.4499 12.3818 63.8766 14.4037 63.8766 16.4077C63.8766 18.4116 63.4684 20.4872 62.1698 22.0975C61.0195 23.5289 59.4796 24.2446 57.5873 24.2446C56.066 24.2446 54.7302 23.8331 53.8211 22.7774V28.5031C53.8211 28.9683 53.6541 29.3619 53.2831 29.6303C52.8749 29.9166 52.3183 29.9882 51.836 29.9882C51.3722 29.9882 50.7599 29.9345 50.426 29.5945C50.1106 29.2904 50.0178 28.843 50.0178 28.4315V10.2168C50.0178 9.76949 50.1477 9.34006 50.5187 9.03589C50.9083 8.73171 51.4278 8.66014 51.9102 8.66014C52.3926 8.66014 52.912 8.73171 53.3016 9.03589C53.5985 9.26849 53.7469 9.60845 53.8025 9.96631Z"
+									fill="white"></path>
+								<path fill-rule="evenodd" clip-rule="evenodd"
+									d="M189.867 11.9522C188.809 11.9522 187.937 12.2922 187.325 13.1331C186.62 14.0635 186.416 15.2623 186.416 16.3896C186.416 17.5526 186.639 18.6977 187.344 19.6639C187.956 20.5049 188.809 20.8806 189.867 20.8806C190.924 20.8806 191.833 20.5586 192.464 19.7176C193.169 18.7872 193.373 17.5168 193.373 16.3896C193.373 15.2802 193.225 13.9383 192.483 13.0436C191.815 12.2206 190.887 11.9522 189.867 11.9522ZM212.204 10.8429C213.28 9.28619 214.894 8.58838 216.879 8.58838C218.345 8.58838 219.625 9.03569 220.608 10.1093C221.666 11.2365 222 12.7574 222 14.2425V22.5983C222 23.7077 221.221 24.1729 220.145 24.1729C219.662 24.1729 219.05 24.1192 218.679 23.7792C218.326 23.4751 218.215 23.0456 218.215 22.5983V14.7077C218.215 14.0098 218.085 13.2941 217.622 12.7395C217.213 12.2385 216.638 12.0596 215.989 12.0596C215.135 12.0596 214.43 12.31 213.892 12.9542C213.262 13.7057 213.132 14.7792 213.132 15.7096V22.6162C213.132 23.7434 212.353 24.1908 211.258 24.1908C210.776 24.1908 210.182 24.1371 209.811 23.815C209.458 23.5108 209.347 23.0635 209.347 22.6341V14.7077C209.347 14.0098 209.217 13.2941 208.735 12.7395C208.327 12.2564 207.77 12.0596 207.121 12.0596C206.286 12.0596 205.562 12.3279 205.024 12.9542C204.394 13.7057 204.245 14.7792 204.245 15.7096V22.6162C204.245 23.7792 203.392 24.1908 202.316 24.1908C201.221 24.1908 200.442 23.7434 200.442 22.6162V10.1629C200.442 9.73351 200.553 9.30408 200.906 9.0178C201.277 8.71363 201.87 8.65995 202.334 8.65995C202.817 8.65995 203.392 8.71363 203.763 9.03569C204.115 9.32198 204.227 9.7514 204.227 10.1808V10.3061C205.191 9.19673 206.471 8.60627 208.067 8.60627C209.959 8.58838 211.351 9.33987 212.204 10.8429ZM189.867 24.2265C187.77 24.2265 185.934 23.5824 184.542 22.0258C183.114 20.4333 182.594 18.4651 182.594 16.3896C182.594 14.3319 183.114 12.3458 184.542 10.7534C185.934 9.21462 187.789 8.58838 189.867 8.58838C191.963 8.58838 193.837 9.19673 195.247 10.7355C196.676 12.3279 197.195 14.314 197.195 16.3717C197.195 18.4472 196.676 20.4333 195.247 22.0258C193.819 23.6003 191.963 24.2265 189.867 24.2265ZM180.683 11.648C180.683 12.1132 180.442 12.5069 180.127 12.8468C179.793 13.1868 179.385 13.4015 178.884 13.4015C178.346 13.4015 177.863 13.151 177.474 12.8289C176.713 12.2385 175.878 11.9522 174.913 11.9522C173.893 11.9522 173.04 12.31 172.409 13.0794C171.648 13.992 171.463 15.2444 171.463 16.3717C171.463 17.5347 171.685 18.7335 172.446 19.6639C173.077 20.4512 173.893 20.8627 174.932 20.8627C175.897 20.8627 176.769 20.5049 177.529 19.9323C177.9 19.6639 178.383 19.4313 178.865 19.4313C179.385 19.4313 179.811 19.6281 180.164 19.986C180.479 20.2902 180.72 20.6838 180.72 21.1311C180.72 22.0973 179.756 22.813 178.976 23.2782C177.733 23.9939 176.305 24.2444 174.858 24.2444C172.78 24.2444 171.017 23.5466 169.645 22.0615C168.197 20.4691 167.641 18.5009 167.641 16.4075C167.641 14.314 168.16 12.2743 169.663 10.7176C171.092 9.23251 172.928 8.60627 175.006 8.60627C176.398 8.60627 177.733 8.87466 178.939 9.55458C179.7 9.984 180.683 10.6818 180.683 11.648Z"
+									fill="white"></path>
+								<path
+									d="M13.6546 35.9999C-13.3393 24.4234 4.87927 -4.52693 23.84 0.60826C35.4353 3.73947 39.0902 11.5049 38.6264 19.1808C38.1255 27.5725 25.4726 36.4651 15.1388 25.479C18.738 27.8051 28.2369 25.4611 27.5691 17.3021C27.2722 13.7057 23.2463 10.2882 18.5711 10.5924C7.42097 11.326 3.20954 24.9959 13.6546 35.9999Z"
+									fill="white"></path>
+							</svg>
+						</div>
+						<div class="footer__info"><a class="footer__link" href="tel:+78123183441" title="Позвонить">+7
+								(812) 318-34-41</a><a class="footer__link" href="mailto:info@prachka.com"
+								title="Написать на почту">info@prachka.com</a></div>
+					</div>
+					<div class="footer__right">
+						<ul class="footer__navs">
+							<li class="footer__nav footer__hasSubmenu"><a class="footer__url"
+									href="<?=get_permalink(16)?>">PRACHKA</a>
+								<div class="js-dropdown">
+									<svg>
+										<use
+											xlink:href="<?=get_template_directory_uri()?>/assets/images/sprites.svg#arrow-down">
+										</use>
+									</svg>
+								</div>
+								<div class="footer__submenu"><a href="/contacts/">Адреса прачечных</a>
+								</div>
+							</li>
+							<li class="footer__nav"><a class="footer__url" href="/">СТИРКА</a></li>
+							<li class="footer__nav"><a class="footer__url" href="/khimchistka/">ХИМЧИСТКА</a></li>
+							<li class="footer__nav footer__hasSubmenu"><a class="footer__url" href="#">ИНФОРМАЦИЯ</a>
+								<div class="js-dropdown">
+									<svg>
+										<use
+											xlink:href="<?=get_template_directory_uri()?>/assets/images/sprites.svg#arrow-down">
+										</use>
+									</svg>
+								</div>
+								<div class="footer__submenu"><a href="/faq/">Частые вопросы</a>
+									<!--a href="/policy/">Политика <br>конфиденциальности</a--><a
+										href="https://prachka.com/legal/">Правовая <br>информация</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<div class="modal">
+		<div class="modal__block"><span class="modal__close js-modal--close"></span>
+			<div class="modal__body">
+				<div class="modal__text">
+					<p>Заполнять корзину <span class="primary-text">не нужно.</span> Мы самостоятельно <span
+							class="primary-text">сформируем заказ.</span></p><span class="modal__desc for-desktop">Чтобы
+						вызвать курьера <br>заполните форму:</span>
+				</div>
+				<form class="modal__form" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="POST">
+					<span class="modal__desc for-mobile">Чтобы вызвать курьера <br>заполните форму:</span>
+					<div class="modal__form-block">
+						<div class="form-group">
+							<input class="form-group__input" type="text" placeholder="Ваше имя" name="name">
+						</div>
+						<div class="form-group">
+							<input class="phone-mask form-group__input" type="text" placeholder="+7(___)___-__-__"
+								name="phone">
+						</div>
+					</div>
+					<div class="modal__form-block">
+						<div class="modal__form-text">Ваш адрес:</div>
+						<div class="form-group">
+							<input class="form-group__input" type="text" placeholder="Автовская улица" name="address">
+						</div>
+					</div>
+					<div class="modal__form-block">
+						<div class="modal__form-text">Дата и время:</div>
+						<div class="form-group">
+							<input class="date-time form-group__input" type="text" id="date5" readonly name="date">
+							<label class="date-time__label" for="date5">
+								<svg>
+									<use xlink:href="./images/sprites.svg#calendar"></use>
+								</svg><span class="day"></span>
+							</label>
+						</div>
+					</div>
+					<div class="modal__form-btn">
+						<input type="hidden" name="action" value="contact_form">
+						<input type="hidden" class="redirect" name="redirect" value="<?=get_permalink();?>">
+						<button class="button button-primary" type="submit">Вызвать курьера</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="prices">
+		<div class="prices__close"></div>
+		<div class="prices__body">
+			<div class="prices__text">Итого:<span class="js-price--add"></span></div>
+			<div class="prices__button">
+				<button class="button button-secondary js-modal--open" type="button">Вызвать курьера</button>
+			</div>
+		</div>
+		<div class="prices__footer">
+			Бесплатная доставка от 1590₽</div>
+	</div>
+
+
+	<script>
+		$(".modal__form").validate({
+			rules: {
+				name: {
+					required: true,
+					minlength: 3,
+				},
+				address: {
+					required: true,
+				},
+				phone: {
+					required: true,
+				}
+			},
+			messages: {
+				name: {
+					required: "Пожалуйста, введите ваше имя",
+					minlength: "Ваше имя должен быть не менее 3 символов",
+				},
+				address: {
+					required: "Это поле обязательно к заполнению.",
+				},
+				phone: {
+					required: "Это поле обязательно к заполнению.",
+				}
+			},
+		});
+	</script>
+	<script>
+		if (!('IntersectionObserver' in window)) {
+			var script = document.createElement("script");
+			script.src =
+			"https://raw.githubusercontent.com/w3c/IntersectionObserver/master/polyfill/intersection-observer.js";
+			document.getElementsByTagName('head')[0].appendChild(script);
+		}
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+	<script src="<?=get_template_directory_uri()?>/assets/js/vendor.js"></script>
+	<script src="/assets/js/main.js"></script>
+
+	<!-- Yandex.Metrika counter -->
+	<script type="text/javascript">
+		(function (m, e, t, r, i, k, a) {
+			m[i] = m[i] || function () {
+				(m[i].a = m[i].a || []).push(arguments)
+			};
+			m[i].l = 1 * new Date();
+			k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k,
+				a)
+		})
+		(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+		ym(88353154, "init", {
+			clickmap: true,
+			trackLinks: true,
+			accurateTrackBounce: true,
+			webvisor: true
+		});
+	</script>
+	<noscript>
+		<div><img src="https://mc.yandex.ru/watch/88353154" style="position:absolute; left:-9999px;" alt="" /></div>
+	</noscript>
+	<!-- /Yandex.Metrika counter -->
+
+	<!-- Yandex.Metrika counter -->
+	<script type="text/javascript">
+		(function (m, e, t, r, i, k, a) {
+			m[i] = m[i] || function () {
+				(m[i].a = m[i].a || []).push(arguments)
+			};
+			m[i].l = 1 * new Date();
+			for (var j = 0; j < document.scripts.length; j++) {
+				if (document.scripts[j].src === r) {
+					return;
+				}
+			}
+			k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k,
+				a)
+		})
+		(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+		ym(90602172, "init", {
+			clickmap: true,
+			trackLinks: true,
+			accurateTrackBounce: true,
+			webvisor: true
+		});
+	</script>
+	<noscript>
+		<div><img src="https://mc.yandex.ru/watch/90602172" style="position:absolute; left:-9999px;" alt="" /></div>
+	</noscript>
+	<!-- /Yandex.Metrika counter -->
+
+	<!-- <?wp_footer()?> -->
+</body>
+
+</html>
+<!-- <?get_footer()?> -->

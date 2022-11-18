@@ -1,0 +1,117 @@
+.technology {
+    padding: 45px 0px 0px 0px;
+
+    &__container {}
+
+    &__body {}
+
+    &__top {}
+
+    &__title {
+        margin: 0px 0px 14px 0px;
+    }
+
+    &__content {}
+
+    &__nav {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 40px;
+    }
+
+    &__button {}
+
+    &__slides {
+        position: relative;
+    }
+
+    &__text {
+        p {
+            font-size: 20px;
+            line-height: 120%;
+            font-weight: 500;
+
+            @media(max-width:1024px) {
+                font-size: 16px;
+            }
+        }
+    }
+
+
+    &__content-top {
+        margin-bottom: 40px;
+        .technology__main-text {
+            max-width: 600px;
+        }
+    }
+
+    &__title {}
+
+    &__main-text {
+        font-size: 20px;
+        line-height: 130%;
+    }
+
+    &__columns {
+        display: flex;
+        gap: 40px;
+        @media(max-width:1024px) {
+            flex-direction: column;
+            gap: 25px;
+        }
+    }
+
+    &__column {
+        flex: 0 1 50%;
+    }
+
+    &__par {
+        margin-bottom: 24px;
+    }
+
+    &__subtitle {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 120%;
+        margin-bottom: 16px;
+    }
+
+    &__text {
+        font-size: 18px;
+        line-height: 130%;
+    }
+
+    &__list {
+        margin: 0;
+        padding: 0;
+    }
+
+    &__point {
+        margin: 0;
+        padding: 0;
+        font-size: 18px;
+        margin-bottom: 10px;
+        line-height: 130%;
+        &:last-child {
+            margin: 0;
+        }
+    }
+}
+
+
+
+.tab {
+
+    &__btn {}
+
+    &__slide {
+        display: none;
+        pointer-events: none;
+        transition: all 0.3s ease 0s;
+
+        &._active {
+            display: block;
+        }
+    }
+}

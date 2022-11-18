@@ -1,0 +1,230 @@
+.products-label {
+    background-color: #fff;
+    color: var(--main-color-blue);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 17px;
+    font-weight: 500;
+    font-size: 20px;
+    border-radius: 30px;
+}
+
+.products-price {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-color-green);
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.products {
+
+    &__row {
+        display: flex;
+        gap: 40px;
+        @media(max-width:1024px) {
+            flex-direction: column;
+        }
+    }
+
+    &__column {
+        flex: 0 1 50%;
+    }
+
+    &__banner {}
+
+    &__items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 40px;
+        @media(max-width:1024px) {
+            gap: 20px;
+        }
+    }
+
+    &__body {
+        margin-bottom: 40px;
+        
+    }
+
+    &__item {}
+
+    &__title {
+        margin-bottom: 30px;
+    }
+
+    &__buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        @media(max-width:420px) {
+            flex-wrap: wrap;
+
+        }
+        
+    }
+
+    &__button {
+        white-space: nowrap;
+        @media(max-width:1024px) {
+            flex: 0 1 50%;
+        }
+        @media(max-width:420px) {
+            flex: 1 1 100%;
+        }
+    }
+
+}
+
+.products-banner {
+    height: 100%;
+    background-color: var(--main-color-blue);
+    box-shadow: 0px 121.114px 48.8528px rgba(0, 0, 0, 0.01), 0px 68.1904px 40.7107px rgba(0, 0, 0, 0.03), 0px 30.533px 30.533px rgba(0, 0, 0, 0.04), 0px 7.12437px 16.2843px rgba(0, 0, 0, 0.05), 0px 0px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    color: #fff;
+    padding: 35px 30px;
+    position: relative;
+    overflow: hidden;
+    @media(max-width:1024px) {
+        height: 560px;
+    }
+    &__label {
+        margin-bottom: 35px;
+    }
+
+    &__title {
+        margin: 0 0 18px 0px;
+        font-size: 32px;
+    }
+
+    &__price {
+        font-size: 28px;
+        font-weight: 500;
+        padding: 6px 20px;
+        font-size: 28px;
+        border-radius: 30px;
+        @include adaptiv-value("margin-bottom", 45, 35, 1);
+        filter: drop-shadow(-4.34671px 34.7737px 13.9095px rgba(4, 28, 47, 0.01)) drop-shadow(-2.60803px 19.1255px 11.3014px rgba(4, 28, 47, 0.03)) drop-shadow(-0.869342px 8.69342px 8.69342px rgba(4, 28, 47, 0.04)) drop-shadow(0px 1.73868px 4.34671px rgba(4, 28, 47, 0.05)) drop-shadow(0px 0px 0px rgba(4, 28, 47, 0.05));
+    }
+
+    &__item {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+
+        &:last-child {
+            margin: 0;
+        }
+    }
+
+    &__icon {
+        img {
+            @include adaptiv-value("width", 43, 30, 1);
+            @include adaptiv-value("height", 43, 30, 1);
+        }
+    }
+
+    &__text {
+        font-size: 18px;
+        @media(max-width:1024px) {
+            font-size: 12px;
+        }
+        line-height: 120%;
+    }
+
+    &__bg {
+        position: absolute;
+        transform: rotate(10.75deg);
+        bottom: -350px;
+        right: -200px;
+        
+        img {
+            max-width: 720px;
+        }
+        @media(max-width:1100px) {
+            right: -220px;
+            bottom: -370px;
+        }
+        @media(max-width:1024px) {
+            img {
+                max-width: 600px;
+            }
+        }
+        
+    }
+
+    &__image {
+        position: absolute;
+        bottom: -100px;
+        right: -150px;
+        @media(max-width:1100px) {
+            right: -190px;
+            bottom: -120px;
+        }
+        img {
+            max-width: 580px;
+        }
+        @media(max-width:1024px) {
+            img {
+                max-width: 500px;
+            }
+        }
+    }
+}
+
+
+
+.products-item {
+    background-color: #fff;
+    box-shadow: 0px 29.668px 11.6553px rgba(0, 0, 0, 0.01), 0px 16.9531px 9.53614px rgba(0, 0, 0, 0.03), 0px 7.417px 7.417px rgba(0, 0, 0, 0.04), 0px 2.11914px 4.23828px rgba(0, 0, 0, 0.05), 0px 0px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    position: relative;
+    &__top {
+        padding: 10px 10px 0px 10px;
+        margin-bottom: 15px;
+    }
+
+    &__content {
+        padding: 10px 10px 15px 10px;
+    }
+
+    &__label {
+        font-size: 14px;
+        position: absolute;
+        top: 22px;
+        left: 17px;
+        z-index: 1;
+        
+    }
+
+    &__image {
+        @include adaptiv-value("padding-bottom", 175, 155, 1);
+        position: relative;
+        border-radius: 10px;
+        width: 100%;
+        img {
+            border-radius: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+    }
+
+    &__title {
+        margin-bottom: 25px;
+        font-weight: 500;
+        font-size: 16px;
+    }
+
+    &__price {}
+}
+
