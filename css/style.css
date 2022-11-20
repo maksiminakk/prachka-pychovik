@@ -1829,6 +1829,18 @@
   transition: all 0.3s ease 0s;
 }
 
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  width: auto;
+}
+
+.swiper-pagination-bullets {
+  flex: 0 0 auto;
+}
+.swiper-pagination-bullets span {
+  background-color: #000;
+  transition: all 0.3s ease 0s;
+}
+
 .comments-item {
   padding: 25px 20px;
   background-color: #fff;
@@ -1855,6 +1867,121 @@
 }
 .comments-item__text p {
   font-size: 18px;
+}
+
+.new-comments {
+  padding: 100px 0px 0px 0px;
+}
+@media (max-width: 1024px) {
+  .new-comments__container {
+    max-width: 440px;
+    padding: 0px 10px;
+  }
+}
+.new-comments__top {
+  display: flex;
+  justify-content: space-between;
+}
+.new-comments__title {
+  margin: 0;
+}
+.new-comments__right {
+  color: #575757;
+  text-align: right;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 120%;
+}
+.new-comments__icons {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  position: relative;
+  top: 5px;
+}
+.new-comments__icons img {
+  width: 24px;
+  height: 24px;
+}
+.new-comments__top-content span {
+  font-weight: 600;
+}
+.new-comments__slider {
+  padding: 20px;
+}
+@media (max-width: 1024px) {
+  .new-comments__slider {
+    padding: 20px 0px;
+  }
+}
+.new-comments__slide {
+  width: 420px;
+}
+.new-comments-item {
+  padding: 20px 20px 24px 20px;
+  box-shadow: 0px 28px 11px rgba(0, 0, 0, 0.01), 0px 16px 9px rgba(0, 0, 0, 0.03), 0px 7px 7px rgba(0, 0, 0, 0.04), 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 0px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+.new-comments-item__title {
+  color: var(--main-color-blue);
+}
+.new-comments-item__top {
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.new-comments-item__image {
+  position: relative;
+  padding-bottom: 260px;
+  margin-bottom: 20px;
+}
+.new-comments-item__image img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+.new-comments-item__category {
+  position: absolute;
+  bottom: 16px;
+  left: 12px;
+  background-color: #fff;
+  border-radius: 22px;
+  font-weight: 600;
+  padding: 6px 12px;
+}
+.new-comments-content__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.new-comments-content__left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.new-comments-content__title {
+  font-size: 20px;
+  font-weight: 600;
+}
+.new-comments-content__date {
+  font-size: 16px;
+}
+.new-comments-content__order-number {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+.new-comments-content__text {
+  font-size: 18px;
+  line-height: 125%;
+  font-weight: 500;
 }
 
 .questions {
@@ -2133,4 +2260,76 @@
     order: 2;
     margin-bottom: 36px;
   }
+}
+
+.prices-section {
+  padding: 100px 0px;
+}
+@media (max-width: 1024px) {
+  .prices-section {
+    padding: 45px 0px;
+  }
+}
+.prices-section__body .products__buttons {
+  flex-wrap: wrap;
+}
+@media (max-width: 1024px) {
+  .prices-section__body .products__buttons {
+    gap: 20px;
+  }
+  .prices-section__body .products__buttons a, .prices-section__body .products__buttons button {
+    flex: 1 1 100%;
+  }
+}
+.prices-section__row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 50px;
+}
+.prices-section__row .products-item__image {
+  padding-bottom: 290px;
+}
+@media (max-width: 1024px) {
+  .prices-section__row {
+    margin-bottom: 25px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .prices-section__row .products-item__image {
+    padding-bottom: 150px;
+  }
+}
+.prices-section__row .products-item:last-child {
+  display: none;
+}
+@media (max-width: 1024px) {
+  .prices-section__row .products-item:last-child {
+    display: block;
+  }
+}
+.prices-section__texts {
+  color: #575757;
+  margin-left: 5px;
+}
+
+.stocks__wrapper {
+  display: flex;
+  gap: 40px;
+}
+.stocks__slide {
+  flex: 0 1 50%;
+}
+.stocks__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+.stocks__item:first-child {
+  flex: 1 1 100%;
+}
+.stocks__item:nth-child(2) {
+  flex: 0 1 calc(50% - 20px);
+}
+.stocks__item:nth-child(3) {
+  flex: 0 1 calc(50% - 20px);
 }

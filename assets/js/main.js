@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const commentsSlider = document.querySelector('.comments__slider');
+  const newCommentsSlider = document.querySelector('.new-comments__slider');
   if (commentsSlider) {
     new Swiper(commentsSlider, {
       loop: true,
@@ -126,6 +127,35 @@ document.addEventListener("DOMContentLoaded", function () {
         1024: {
             spaceBetween: 30,
             slidesPerView: 3,
+        }
+      },
+    });
+  }
+  if (newCommentsSlider) {
+    new Swiper(newCommentsSlider, {
+      loop: true,
+      pagination: {
+        el: '.new-comments__pagination',
+      },
+      slidesPerView: 1,
+      spaceBetween: 30,
+      speed: 800,
+      autoplay: {
+        delay: 5000,
+        stopOnLastSlide: false,
+        disableOnInteraction: false,
+      },
+      grabCursor: true,
+      breakpoints: {
+        100: {
+            spaceBetween: 5,
+        },
+        492: {
+            spaceBetween: 5,
+        },
+        1024: {
+            spaceBetween: 30,
+            slidesPerView: 'auto',
         }
       },
     });
@@ -311,5 +341,41 @@ document.addEventListener("DOMContentLoaded", function () {
             return _slideUp(target, duration);
         }
     } 
-   
+
+
+    const mobileSlider = document.querySelector('.stocks__slider'),
+        mobileSliderWrapper = document.querySelector('.stocks__wrapper');
+    if (window.innerWidth <= 1024) {
+        mobileSlider.classList.add('swiper');
+        mobileSliderWrapper.classList.add('swiper-wrapper')
+        if (mobileSlider) {
+            new Swiper(mobileSlider, {
+              pagination: {
+                el: '.new-comments__pagination',
+              },
+              slidesPerView: 1,
+              spaceBetween: 30,
+              speed: 800,
+            //   autoplay: {
+            //     delay: 5000,
+            //     stopOnLastSlide: false,
+            //     disableOnInteraction: false,
+            //   },
+              grabCursor: true,
+              breakpoints: {
+                100: {
+                    spaceBetween: 5,
+                },
+                492: {
+                    spaceBetween: 5,
+                },
+                1024: {
+                    spaceBetween: 30,
+                    slidesPerView: 2,
+                }
+              },
+            });
+          }
+    }
+
 });
