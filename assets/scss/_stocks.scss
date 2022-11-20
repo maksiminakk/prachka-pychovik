@@ -1,0 +1,98 @@
+.stocks {
+
+    &__container {
+    }
+
+    &__body {
+    }
+
+    &__top {
+    }
+
+    &__title {
+    }
+
+    &__content {
+    }
+
+    &__slider {
+    }
+
+    &__wrapper {
+        display: flex;
+        gap: 40px;
+    }
+
+    &__slide {
+        flex: 0 1 50%;
+    }
+
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+    }
+
+    &__item {
+        &:first-child {
+            flex: 1 1 100%;
+        }
+        &:nth-child(2) {
+            flex: 0 1 calc(50% - 20px);
+        }
+        &:nth-child(3) {
+            flex: 0 1 calc(50% - 20px);
+        }
+    }
+
+    &__image {
+    }
+}
+
+.products {
+
+    &__banner {
+    }
+
+    &__banner-small {
+    }
+}
+.products-banner {
+
+    &__label {
+    }
+
+    &__title {
+    }
+
+    &__price {
+    }
+
+    &__item {
+    }
+
+    &__icon {
+    }
+
+    &__text {
+    }
+
+    &__bg {
+    }
+
+    &__image {
+    }
+}
+
+.stocks-item {
+
+    &__button {
+    }
+    &__title {
+    }
+    &__image {
+
+    }
+}
+
+
