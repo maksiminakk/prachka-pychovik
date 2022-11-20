@@ -2313,11 +2313,13 @@
 }
 
 .stocks__wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 40px;
 }
 .stocks__slide {
-  flex: 0 1 50%;
+  flex: 1 1 50%;
+  height: 100%;
 }
 .stocks__row {
   display: flex;
