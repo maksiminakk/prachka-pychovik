@@ -364,10 +364,10 @@ document.addEventListener("DOMContentLoaded", function () {
               grabCursor: true,
               breakpoints: {
                 100: {
-                    spaceBetween: 5,
+                    spaceBetween: 30,
                 },
                 492: {
-                    spaceBetween: 5,
+                    spaceBetween: 30,
                 },
                 1024: {
                     spaceBetween: 30,

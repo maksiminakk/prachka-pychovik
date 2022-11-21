@@ -95,14 +95,20 @@
     }
     &__label {
         margin-bottom: 35px;
+        position: relative;
+        z-index: 3;
     }
 
     &__title {
         margin: 0 0 18px 0px;
         font-size: 32px;
+        position: relative;
+        z-index: 3;
     }
 
     &__price {
+        position: relative;
+        z-index: 3;
         font-size: 28px;
         font-weight: 500;
         padding: 6px 20px;
@@ -116,7 +122,8 @@
         display: flex;
         gap: 10px;
         margin-bottom: 16px;
-
+        position: relative;
+        z-index: 3;
         &:last-child {
             margin: 0;
         }
